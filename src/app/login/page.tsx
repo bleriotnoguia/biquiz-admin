@@ -6,6 +6,12 @@ import Link from 'next/link'
 import { headers, cookies } from 'next/headers'
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Login',
+  description: '...',
+}
 
 const LoginPage = ({ searchParams }: { searchParams: { message: string } }) => {
   const signUp = async (formData: FormData) => {
