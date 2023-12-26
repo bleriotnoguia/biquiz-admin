@@ -1,6 +1,6 @@
 import { mdiCheckDecagram } from '@mdi/js'
 import { Field, Form, Formik } from 'formik'
-import { useAppSelector } from '../../stores/hooks'
+import { useAppSelector } from '@/stores/hooks'
 import CardBox from '.'
 import FormCheckRadio from '../Form/CheckRadio'
 import PillTag from '../PillTag'

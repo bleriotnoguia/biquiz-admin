@@ -1,12 +1,12 @@
 import { mdiAccessPoint, mdiMonitorCellphone, mdiTableBorder } from '@mdi/js'
 import React from 'react'
-import Button from '../../components/Button'
-import CardBox from '../../components/CardBox'
-import LayoutAuthenticated from '../../layouts/Authenticated'
-import NotificationBar from '../../components/NotificationBar'
-import SectionMain from '../../components/Section/Main'
-import SectionTitleLineWithButton from '../../components/Section/TitleLineWithButton'
-import TableSampleClients from '../../components/Table/SampleClients'
+import Button from '@/components/Button'
+import CardBox from '@/components/CardBox'
+import LayoutAuthenticated from '@/layouts/Authenticated'
+import NotificationBar from '@/components/NotificationBar'
+import SectionMain from '@/components/Section/Main'
+import SectionTitleLineWithButton from '@/components/Section/TitleLineWithButton'
+import TableSampleClients from '@/components/Table/SampleClients'
 
 const CategoriesPage = () => {
   return (

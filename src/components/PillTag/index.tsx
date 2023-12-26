@@ -1,6 +1,6 @@
 import React from 'react'
-import { ColorKey } from '../../interfaces'
-import { colorsBgLight, colorsOutline } from '../../colors'
+import { ColorKey } from '@/interfaces'
+import { colorsBgLight, colorsOutline } from '@/colors'
 import PillTagPlain from './Plain'
 
 type Props = {

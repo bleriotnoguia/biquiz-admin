@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
-import { BgKey } from '../../interfaces'
-import { gradientBgPurplePink, gradientBgDark, gradientBgPinkRed } from '../../colors'
-import { useAppSelector } from '../../stores/hooks'
+import { BgKey } from '@/interfaces'
+import { gradientBgPurplePink, gradientBgDark, gradientBgPinkRed } from '@/colors'
+import { useAppSelector } from '@/stores/hooks'
 
 type Props = {
   bg: BgKey

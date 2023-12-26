@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ColorButtonKey } from '../../interfaces'
+import { ColorButtonKey } from '@/interfaces'
 import Button from '../Button'
 
 type Props = {

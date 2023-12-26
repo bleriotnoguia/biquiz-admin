@@ -1,5 +1,5 @@
 import React from 'react'
-import { MenuAsideItem } from '../../interfaces'
+import { MenuAsideItem } from '@/interfaces'
 import AsideMenuLayer from './Layer'
 import OverlayLayer from '../OverlayLayer'
 

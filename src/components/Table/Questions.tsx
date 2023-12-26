@@ -1,13 +1,14 @@
 'use client'
 
 import { mdiEye, mdiTrashCan } from '@mdi/js'
-import React, { useState } from 'react'
-import { useSampleClients } from '../../hooks/sampleData'
-import { Client } from '../../interfaces'
+import React, { useEffect, useState } from 'react'
+import { useSampleClients } from '@/hooks/sampleData'
+import { Client } from '@/interfaces'
 import Button from '../Button'
 import Buttons from '../Buttons'
 import CardBoxModal from '../CardBox/Modal'
 import UserAvatar from '../UserAvatar'
+import { createClient } from '@/utils/supabase/client'
 
 const TableSampleClients = () => {
   const { clients } = useSampleClients()
@@ -33,6 +34,17 @@ const TableSampleClients = () => {
     setIsModalInfoActive(false)
     setIsModalTrashActive(false)
   }
+
+  const [questions, setQuestions] = useState<any[] | null>(null)
+  const supabase = createClient()
+
+  useEffect(() => {
+    const getData = async () => {
+      const { data } = await supabase.from('questions').select()
+      setQuestions(data)
+    }
+    getData()
+  }, [])
 
   return (
     <>

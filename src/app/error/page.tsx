@@ -1,10 +1,10 @@
 'use client'
 
 import React from 'react'
-import Button from '../../components/Button'
-import CardBox from '../../components/CardBox'
-import SectionFullScreen from '../../components/Section/FullScreen'
-import LayoutAuthenticated from '../../layouts/Authenticated'
+import Button from '@/components/Button'
+import CardBox from '@/components/CardBox'
+import SectionFullScreen from '@/components/Section/FullScreen'
+import LayoutAuthenticated from '@/layouts/Authenticated'
 
 const ErrorPage = () => {
   return (

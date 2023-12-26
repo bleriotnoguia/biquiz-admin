@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react'
 import { mdiMinus, mdiPlus } from '@mdi/js'
 import Icon from '../Icon'
 import Link from 'next/link'
-import { getButtonColor } from '../../colors'
+import { getButtonColor } from '@/colors'
 import AsideMenuList from './List'
-import { MenuAsideItem } from '../../interfaces'
+import { MenuAsideItem } from '@/interfaces'
 import { usePathname } from 'next/navigation'
 
 type Props = {

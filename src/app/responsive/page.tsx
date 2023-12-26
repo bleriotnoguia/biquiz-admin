@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import React from 'react'
-import LayoutAuthenticated from '../../layouts/Authenticated'
-import SectionMain from '../../components/Section/Main'
-import SectionTitle from '../../components/Section/Title'
-import { appTitle } from '../../config'
+import LayoutAuthenticated from '@/layouts/Authenticated'
+import SectionMain from '@/components/Section/Main'
+import SectionTitle from '@/components/Section/Title'
+import { appTitle } from '@/config'
 
 const ResponsivePage = () => {
   return (

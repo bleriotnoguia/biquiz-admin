@@ -7,7 +7,7 @@ import {
   mdiCheckCircleOutline,
   mdiAlertOutline,
 } from '@mdi/js'
-import { ColorKey, TrendType } from '../../interfaces'
+import { ColorKey, TrendType } from '@/interfaces'
 import PillTag from '.'
 
 type Props = {
