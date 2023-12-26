@@ -12,7 +12,6 @@
     "@headlessui/react": "^1.7.17",
     "@mdi/js": "^7.0.96",
     "@reduxjs/toolkit": "^1.9.5",
-    "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.39.1",
     "chart.js": "^4.4.0",
     "formik": "^2.4.2",
