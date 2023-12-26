@@ -5,7 +5,6 @@ import CardBox from '@/components/CardBox'
 import LayoutGuest from '@/layouts/Guest'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useAppDispatch, useAppSelector } from '@/stores/hooks'
 import { signIn } from '@/modules/auth/auth.actions'
 import {
   selectIsLoggedInUser,
@@ -14,6 +13,7 @@ import {
 } from '@/modules/auth/auth.selectors'
 import { CustomError } from '@/types/error'
 import { RequestStatus } from '@/types/request-status'
+import { useAppDispatch, useAppSelector } from '@/config/store'
 
 const LoginPage = ({ searchParams }: { searchParams: { message: string } }) => {
   const router = useRouter()
@@ -29,9 +29,14 @@ const LoginPage = ({ searchParams }: { searchParams: { message: string } }) => {
     }
   }, [isLoggedInUser, router])
 
-  const onSignIn = async (formData: FormData) => {
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
+  const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const formData = new FormData(event.target as HTMLFormElement)
+    const formEntries = Object.fromEntries(formData)
+    const email: string = formEntries.email as string
+    const password: string = formEntries.password as string
+
     await dispatch(signIn({ email, password }))
   }
 
@@ -61,7 +66,7 @@ const LoginPage = ({ searchParams }: { searchParams: { message: string } }) => {
         <CardBox className="w-11/12 md:w-7/12 lg:w-6/12 xl:w-4/12 shadow-2xl">
           <form
             className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
-            action={onSignIn}
+            onSubmit={onSignIn}
           >
             <label className="text-md" htmlFor="email">
               Email

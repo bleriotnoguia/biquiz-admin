@@ -28,8 +28,8 @@ import PillTag from '@/components/PillTag'
 import SectionMain from '@/components/Section/Main'
 import SectionTitle from '@/components/Section/Title'
 import SectionTitleLineWithButton from '@/components/Section/TitleLineWithButton'
-import { useAppDispatch } from '@/stores/hooks'
-import { setDarkMode } from '@/stores/darkModeSlice'
+import { setDarkMode } from '@/slices/darkModeSlice'
+import { useAppDispatch } from '@/config/store'
 
 const UiPage = () => {
   const dispatch = useAppDispatch()

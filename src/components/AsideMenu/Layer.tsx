@@ -4,7 +4,7 @@ import Icon from '../Icon'
 import AsideMenuItem from './Item'
 import AsideMenuList from './List'
 import { MenuAsideItem } from '@/interfaces'
-import { useAppSelector } from '@/stores/hooks'
+import { useAppSelector } from '@/config/store'
 
 type Props = {
   menu: MenuAsideItem[]

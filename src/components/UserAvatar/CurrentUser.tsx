@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
-import { useAppSelector } from '@/stores/hooks'
 import UserAvatar from '.'
+import { useAppSelector } from '@/config/store'
 
 type Props = {
   className?: string
@@ -8,7 +8,7 @@ type Props = {
 }
 
 export default function UserAvatarCurrentUser({ className = '', children }: Props) {
-  const userEmail = useAppSelector((state) => state.main.userEmail)
+  const userEmail = useAppSelector((state) => state.auth.session.user?.email)
 
   return (
     <UserAvatar username={userEmail} className={className}>

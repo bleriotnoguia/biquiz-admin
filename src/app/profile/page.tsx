@@ -22,11 +22,11 @@ import SectionMain from '@/components/Section/Main'
 import SectionTitleLineWithButton from '@/components/Section/TitleLineWithButton'
 import CardBoxUser from '@/components/CardBox/User'
 import type { UserForm } from '@/interfaces'
-import { useAppSelector } from '@/stores/hooks'
+import { useAppSelector } from '@/config/store'
 
 const ProfilePage = () => {
-  const userName = useAppSelector((state) => state.main.userName)
-  const userEmail = useAppSelector((state) => state.main.userEmail)
+  const userName = useAppSelector((state) => state.auth.session.user?.name)
+  const userEmail = useAppSelector((state) => state.auth.session.user?.email)
 
   const userForm: UserForm = {
     name: userName,

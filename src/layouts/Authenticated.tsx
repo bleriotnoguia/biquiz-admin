@@ -14,9 +14,10 @@ import FormField from '../components/Form/Field'
 import { Field, Form, Formik } from 'formik'
 import { setSessionFromLocalSessionData } from '@/modules/auth/auth.actions'
 import { selectIsLoggedInSession, selectLocalSessionData } from '@/modules/auth/auth.selectors'
-import { useAppDispatch, useAppSelector } from '@/stores/hooks'
 import { useRouter } from 'next/navigation'
 import { Session } from '@/types/user'
+import { useAppDispatch, useAppSelector } from '@/config/store'
+import Loading from '@/components/Loading'
 
 type Props = {
   children: ReactNode
@@ -127,7 +128,7 @@ export default function LayoutAuthenticated({ children }: Props) {
           </div>
         </div>
       ) : (
-        <div>Loading ...</div>
+        <Loading />
       )}
     </>
   )

@@ -8,9 +8,9 @@ import Divider from '../../Divider'
 import Icon from '../../Icon'
 import UserAvatarCurrentUser from '../../UserAvatar/CurrentUser'
 import NavBarMenuList from '../MenuList'
-import { useAppDispatch, useAppSelector } from '../../../stores/hooks'
 import { MenuNavBarItem } from '../../../interfaces'
-import { setDarkMode } from '../../../stores/darkModeSlice'
+import { useAppDispatch, useAppSelector } from '@/config/store'
+import { setDarkMode } from '@/slices/darkModeSlice'
 
 type Props = {
   item: MenuNavBarItem
@@ -19,7 +19,7 @@ type Props = {
 export default function NavBarItem({ item }: Props) {
   const dispatch = useAppDispatch()
 
-  const userName = useAppSelector((state) => state.main.userName)
+  const userName = useAppSelector((state) => state.auth.session.user?.name)
 
   const [isDropdownActive, setIsDropdownActive] = useState(false)
 
