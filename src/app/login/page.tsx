@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import CardBox from '@/components/CardBox'
+import CardBox from '@/modules/admin/components/CardBox'
 import LayoutGuest from '@/layouts/Guest'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -14,6 +14,7 @@ import {
 import { CustomError } from '@/types/error'
 import { RequestStatus } from '@/types/request-status'
 import { useAppDispatch, useAppSelector } from '@/config/store'
+import { useLoggedInUserData } from '@/hooks/useLoggedInUserData'
 
 const LoginPage = ({ searchParams }: { searchParams: { message: string } }) => {
   const router = useRouter()
@@ -23,11 +24,13 @@ const LoginPage = ({ searchParams }: { searchParams: { message: string } }) => {
   const signInError: CustomError | null = useAppSelector(selectSignInError)
   const signInStatus: RequestStatus = useAppSelector(selectSignInStatus)
 
+  const { isLoggedInSession } = useLoggedInUserData(false)
+
   useEffect(() => {
-    if (isLoggedInUser) {
+    if (isLoggedInUser || isLoggedInSession) {
       router.push('/')
     }
-  }, [isLoggedInUser, router])
+  }, [isLoggedInSession, isLoggedInUser, router])
 
   const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
