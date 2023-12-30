@@ -1,7 +1,6 @@
 import {
   mdiAccountCircle,
   mdiMonitor,
-  mdiLock,
   mdiAlertCircle,
   mdiSquareEditOutline,
   mdiTable,
@@ -13,6 +12,11 @@ import {
 import { MenuAsideItem } from './interfaces'
 
 const menuAside: MenuAsideItem[] = [
+  {
+    href: '/',
+    label: 'Home',
+    icon: mdiHome,
+  },
   {
     href: '/admin',
     icon: mdiMonitor,
@@ -49,19 +53,9 @@ const menuAside: MenuAsideItem[] = [
     icon: mdiResponsive,
   },
   {
-    href: '/',
-    label: 'Home',
-    icon: mdiHome,
-  },
-  {
     href: '/admin/profile',
     label: 'Profile',
     icon: mdiAccountCircle,
-  },
-  {
-    href: '/admin/login',
-    label: 'Login',
-    icon: mdiLock,
   },
   {
     href: '/admin/error',

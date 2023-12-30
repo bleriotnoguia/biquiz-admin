@@ -6,7 +6,7 @@ import CardBox from '@/modules/admin/components/CardBox'
 import NotificationBar from '@/modules/admin/components/NotificationBar'
 import SectionMain from '@/modules/admin/components/Section/Main'
 import SectionTitleLineWithButton from '@/modules/admin/components/Section/TitleLineWithButton'
-import TableSampleClients from '@/modules/admin/components/Table/SampleClients'
+import TableSampleClients from '@/modules/admin/components/Table/Questions'
 
 const QuestionsPage = () => {
   return (

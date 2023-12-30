@@ -1,25 +1,22 @@
 'use client'
 
-import { mdiEye, mdiTrashCan } from '@mdi/js'
-import React, { useEffect, useState } from 'react'
-import { useSampleClients } from '@/modules/admin/hooks/sampleData'
-import { Client } from '@/modules/admin/interfaces'
+import { mdiPencil, mdiTrashCan } from '@mdi/js'
+import React, { useState } from 'react'
+import { Question } from '@/modules/admin/interfaces'
 import Button from '../Button'
 import Buttons from '../Buttons'
 import CardBoxModal from '../CardBox/Modal'
-import UserAvatar from '../UserAvatar'
-import { createClient } from '@/utils/supabase/client'
+import { useQuestionsData } from '../../hooks/questionsData'
 
 const TableSampleClients = () => {
-  const { clients } = useSampleClients()
-
+  const questions = useQuestionsData()
   const perPage = 5
 
   const [currentPage, setCurrentPage] = useState(0)
 
-  const clientsPaginated = clients.slice(perPage * currentPage, perPage * (currentPage + 1))
+  const questionsPaginated = questions.slice(perPage * currentPage, perPage * (currentPage + 1))
 
-  const numPages = clients.length / perPage
+  const numPages = questions.length / perPage
 
   const pagesList = []
 
@@ -34,17 +31,6 @@ const TableSampleClients = () => {
     setIsModalInfoActive(false)
     setIsModalTrashActive(false)
   }
-
-  const [questions, setQuestions] = useState<any[] | null>(null)
-  const supabase = createClient()
-
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await supabase.from('questions').select()
-      setQuestions(data)
-    }
-    getData()
-  }, [])
 
   return (
     <>
@@ -79,45 +65,35 @@ const TableSampleClients = () => {
       <table>
         <thead>
           <tr>
-            <th />
-            <th>Name</th>
-            <th>Options Count</th>
-            <th>Category</th>
-            <th>Source Text</th>
-            <th>Question_type</th>
-            <th>Is Active</th>
-            <th>Created</th>
+            <th>is_active</th>
+            <th>type</th>
+            <th>source_text</th>
+            <th>locale</th>
+            <th>category</th>
+            <th>id</th>
+            <th>updated_at</th>
+            <th>created_at</th>
             <th />
           </tr>
         </thead>
         <tbody>
-          {clientsPaginated.map((client: Client) => (
-            <tr key={client.id}>
-              <td className="border-b-0 lg:w-6 before:hidden">
-                <UserAvatar username={client.name} className="w-24 h-24 mx-auto lg:w-6 lg:h-6" />
-              </td>
-              <td data-label="Name">{client.name}</td>
-              <td data-label="Company">{client.company}</td>
-              <td data-label="City">{client.city}</td>
-              <td data-label="Company">{client.company}</td>
-              <td data-label="City">{client.city}</td>
-              <td data-label="Progress" className="lg:w-32">
-                <progress
-                  className="flex w-2/5 self-center lg:w-full"
-                  max="100"
-                  value={client.progress}
-                >
-                  {client.progress}
-                </progress>
-              </td>
-              <td data-label="Created" className="lg:w-1 whitespace-nowrap">
-                <small className="text-gray-500 dark:text-slate-400">{client.created}</small>
+          {questionsPaginated.map((question: Question) => (
+            <tr key={question.id}>
+              <td data-label="is_active">{question.is_active ? 'on' : 'off'}</td>
+              <td data-label="type">{question.type}</td>
+              <td data-label="source_text">{question.source_text}</td>
+              <td data-label="locale">{question.locale}</td>
+              <td data-label="category">{question.category}</td>
+              <td data-label="id">{question.id}</td>
+              <td data-label="updated_at">{question.updated_at}</td>
+              <td data-label="created_at" className="lg:w-1 whitespace-nowrap">
+                <small className="text-gray-500 dark:text-slate-400">{question.created_at}</small>
               </td>
               <td className="before:hidden lg:w-1 whitespace-nowrap">
                 <Buttons type="justify-start lg:justify-end" noWrap>
                   <Button
                     color="info"
-                    icon={mdiEye}
+                    icon={mdiPencil}
                     onClick={() => setIsModalInfoActive(true)}
                     small
                   />

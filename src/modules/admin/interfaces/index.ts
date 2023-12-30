@@ -71,3 +71,15 @@ export type UserForm = {
   name: string
   email: string
 }
+
+export type Question = {
+  type: string
+  source_text: string
+  name: string
+  locale: string
+  category: string
+  id: number
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
