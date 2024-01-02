@@ -7,6 +7,7 @@ import Button from '../Button'
 import Buttons from '../Buttons'
 import CardBoxModal from '../CardBox/Modal'
 import { useQuestionsData } from '../../hooks/questionsData'
+import { format } from 'date-fns'
 
 const TableSampleClients = () => {
   const questions = useQuestionsData()
@@ -85,9 +86,15 @@ const TableSampleClients = () => {
               <td data-label="locale">{question.locale}</td>
               <td data-label="category">{question.category}</td>
               <td data-label="id">{question.id}</td>
-              <td data-label="updated_at">{question.updated_at}</td>
+              <td data-label="updated_at">
+                <small className="text-gray-500 dark:text-slate-400">
+                  {format(question.updated_at, 'dd/MM/yyyy')}
+                </small>
+              </td>
               <td data-label="created_at" className="lg:w-1 whitespace-nowrap">
-                <small className="text-gray-500 dark:text-slate-400">{question.created_at}</small>
+                <small className="text-gray-500 dark:text-slate-400">
+                  {format(question.created_at, 'dd/MM/yyyy')}
+                </small>
               </td>
               <td className="before:hidden lg:w-1 whitespace-nowrap">
                 <Buttons type="justify-start lg:justify-end" noWrap>
