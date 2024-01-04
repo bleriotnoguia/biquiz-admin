@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@headlessui/tailwindcss": "^0.2.0",
     "@mdi/js": "^7.0.96",
     "@reduxjs/toolkit": "^1.9.5",
-    "@supabase/ssr": "^0.0.10",
     "@supabase/supabase-js": "^2.39.1",
     "chart.js": "^4.4.0",
+    "date-fns": "^3.0.6",
     "formik": "^2.4.2",
     "next": "^14.0.4",
     "numeral": "^2.0.6",

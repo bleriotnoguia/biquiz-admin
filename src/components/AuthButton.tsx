@@ -1,33 +1,32 @@
-import { createClient } from '@/utils/supabase/server'
+'use client'
+
 import Link from 'next/link'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import { signOut } from '@/modules/auth/auth.actions'
+import { useAppDispatch } from '@/config/store'
+import { useLoggedInUserData } from '@/hooks/useLoggedInUserData'
 
-export default async function AuthButton() {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+export default function AuthButton() {
+  const router = useRouter()
+  const dispatch = useAppDispatch()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const onSignOut = async () => {
+    await dispatch(signOut())
 
-  const signOut = async () => {
-    'use server'
-
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
-    await supabase.auth.signOut()
-    return redirect('/login')
+    await router.push('/login')
   }
 
-  return user ? (
-    <div className="flex items-center gap-4">
-      Hey, {user.email}!
-      <form action={signOut}>
-        <button className="py-2 px-4 text-slate-300 rounded-md no-underline float-right">
-          Logout
-        </button>
+  const { isLoggedInSession } = useLoggedInUserData(false)
+
+  return isLoggedInSession ? (
+    <div className="flex items-center gap-4 float-right">
+      Hey, Bro!
+      <form action={onSignOut}>
+        <button className="py-2 px-4 text-slate-300 rounded-md no-underline">Logout</button>
       </form>
+      <Link href="/admin" className="py-3 px-3 text-slate-300 rounded-md no-underline float-right">
+        Admin
+      </Link>
     </div>
   ) : (
     <Link href="/login" className="py-3 px-3 text-slate-300 rounded-md no-underline float-right">

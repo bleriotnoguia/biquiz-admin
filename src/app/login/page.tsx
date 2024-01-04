@@ -1,65 +1,46 @@
-import React from 'react'
-// import type { ReactElement } from 'react'
-import CardBox from '../../components/CardBox'
-import LayoutGuest from '../../layouts/Guest'
-import Link from 'next/link'
-import { headers, cookies } from 'next/headers'
-import { createClient } from '@/utils/supabase/server'
-import { redirect } from 'next/navigation'
-import { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Login',
-  description: '...',
-}
+import React, { useEffect } from 'react'
+import CardBox from '@/modules/admin/components/CardBox'
+import LayoutGuest from '@/layouts/Guest'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { signIn } from '@/modules/auth/auth.actions'
+import {
+  selectIsLoggedInUser,
+  selectSignInError,
+  selectSignInStatus,
+} from '@/modules/auth/auth.selectors'
+import { CustomError } from '@/types/error'
+import { RequestStatus } from '@/types/request-status'
+import { useAppDispatch, useAppSelector } from '@/config/store'
+import { useLoggedInUserData } from '@/hooks/useLoggedInUserData'
 
 const LoginPage = ({ searchParams }: { searchParams: { message: string } }) => {
-  const signUp = async (formData: FormData) => {
-    'use server'
+  const router = useRouter()
+  const dispatch = useAppDispatch()
 
-    const origin = headers().get('origin')
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
+  const isLoggedInUser: boolean = useAppSelector(selectIsLoggedInUser)
+  const signInError: CustomError | null = useAppSelector(selectSignInError)
+  const signInStatus: RequestStatus = useAppSelector(selectSignInStatus)
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${origin}/auth/callback`,
-      },
-    })
+  const { isLoggedInSession } = useLoggedInUserData(false)
 
-    if (error) {
-      console.log('error', error)
-      return redirect('/login?message=Could not authenticate userr')
+  useEffect(() => {
+    if (isLoggedInUser || isLoggedInSession) {
+      router.push('/')
     }
+  }, [isLoggedInSession, isLoggedInUser, router])
 
-    return redirect('/login?message=Check email to continue sign in process')
-  }
+  const onSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-  const signIn = async (formData: FormData) => {
-    'use server'
+    const formData = new FormData(event.target as HTMLFormElement)
+    const formEntries = Object.fromEntries(formData)
+    const email: string = formEntries.email as string
+    const password: string = formEntries.password as string
 
-    const email = formData.get('email') as string
-    const password = formData.get('password') as string
-    const cookieStore = cookies()
-    const supabase = createClient(cookieStore)
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-
-    if (error) {
-      console.log('error', error)
-      return redirect('/login?message=Could not authenticate user')
-    }
-
-    console.log('Form Data', formData)
-
-    return redirect('/')
+    await dispatch(signIn({ email, password }))
   }
 
   return (
@@ -88,7 +69,7 @@ const LoginPage = ({ searchParams }: { searchParams: { message: string } }) => {
         <CardBox className="w-11/12 md:w-7/12 lg:w-6/12 xl:w-4/12 shadow-2xl">
           <form
             className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground"
-            action={signIn}
+            onSubmit={onSignIn}
           >
             <label className="text-md" htmlFor="email">
               Email
@@ -110,20 +91,25 @@ const LoginPage = ({ searchParams }: { searchParams: { message: string } }) => {
               required
             />
             <button className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2">
-              Sign In
+              {signInStatus === RequestStatus.LOADING ? 'Loading ...' : 'Sign in'}
             </button>
-            <button
+            {/* <button
               formAction={signUp}
               className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"
             >
               Sign Up
-            </button>
+            </button> */}
             {searchParams?.message && (
               <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
                 {searchParams.message}
               </p>
             )}
           </form>
+          {signInStatus === RequestStatus.FAILED && (
+            <div className="mt-8 p-2 text-center bg-red-100 text-red-600 rounded">
+              {signInError?.message}
+            </div>
+          )}
         </CardBox>
       </div>
     </LayoutGuest>
