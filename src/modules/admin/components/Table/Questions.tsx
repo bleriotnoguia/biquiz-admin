@@ -8,6 +8,10 @@ import Buttons from '../Buttons'
 import CardBoxModal from '../CardBox/Modal'
 import { useQuestionsData } from '../../hooks/questionsData'
 import { format } from 'date-fns'
+import { Form, Formik } from 'formik'
+import QuestionFormStepTwo from './QuestionFormStepTwo'
+import QuestionFormStepOne from './QuestionFormStepOne'
+import Tabs, { ITabs } from './Tabs'
 
 const TableSampleClients = () => {
   const questions = useQuestionsData()
@@ -33,20 +37,40 @@ const TableSampleClients = () => {
     setIsModalTrashActive(false)
   }
 
+  const tabs: ITabs = [
+    { id: 1, name: 'First step', content: <QuestionFormStepOne /> },
+    { id: 2, name: 'Second step', content: <QuestionFormStepTwo /> },
+  ]
+
   return (
     <>
       <CardBoxModal
-        title="Sample modal"
+        title="Question"
         buttonColor="info"
         buttonLabel="Done"
         isActive={isModalInfoActive}
         onConfirm={handleModalAction}
         onCancel={handleModalAction}
       >
-        <p>
-          Lorem ipsum dolor sit amet <b>adipiscing elit</b>
-        </p>
-        <p>This is sample modal</p>
+        <Formik
+          initialValues={{
+            name_en: '',
+            name_fr: '',
+            category: '2',
+            source_text_en: '',
+            source_text_fr: '',
+          }}
+          onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
+        >
+          <Form>
+            <Tabs tabs={tabs} />
+
+            {/* <Buttons>
+              <Button type="submit" color="info" label="Submit" />
+              <Button type="reset" color="info" outline label="Reset" onClick={handleModalAction} />
+            </Buttons> */}
+          </Form>
+        </Formik>
       </CardBoxModal>
 
       <CardBoxModal
