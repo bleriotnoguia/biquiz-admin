@@ -1,12 +1,9 @@
 import {
   mdiAccountCircle,
   mdiMonitor,
-  mdiAlertCircle,
-  mdiSquareEditOutline,
   mdiTable,
   mdiViewList,
   mdiTelevisionGuide,
-  mdiResponsive,
   mdiHome,
 } from '@mdi/js'
 import { MenuAsideItem } from './interfaces'
@@ -38,29 +35,14 @@ const menuAside: MenuAsideItem[] = [
     icon: mdiTable,
   },
   {
-    href: '/admin/forms',
-    label: 'Forms',
-    icon: mdiSquareEditOutline,
-  },
-  {
     href: '/admin/ui',
     label: 'UI',
     icon: mdiTelevisionGuide,
   },
   {
-    href: '/admin/responsive',
-    label: 'Responsive',
-    icon: mdiResponsive,
-  },
-  {
     href: '/admin/profile',
     label: 'Profile',
     icon: mdiAccountCircle,
-  },
-  {
-    href: '/admin/error',
-    label: 'Error',
-    icon: mdiAlertCircle,
   },
   {
     label: 'Dropdown',
