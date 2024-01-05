@@ -12,6 +12,7 @@ import { Form, Formik } from 'formik'
 import QuestionFormStepTwo from './QuestionFormStepTwo'
 import QuestionFormStepOne from './QuestionFormStepOne'
 import Tabs, { ITabs } from './Tabs'
+import { limitLength } from '../../utils/helpers'
 
 const TableSampleClients = () => {
   const questions = useQuestionsData()
@@ -59,6 +60,14 @@ const TableSampleClients = () => {
             category: '2',
             source_text_en: '',
             source_text_fr: '',
+            is_active: false,
+            type: '1',
+            options: [
+              { en: '', fr: '' },
+              { en: '', fr: '' },
+              { en: '', fr: '' },
+              { en: '', fr: '' },
+            ],
           }}
           onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
         >
@@ -90,12 +99,13 @@ const TableSampleClients = () => {
       <table>
         <thead>
           <tr>
+            <th>id</th>
+            <th>name</th>
             <th>is_active</th>
             <th>type</th>
             <th>source_text</th>
-            <th>locale</th>
+            <th>options</th>
             <th>category</th>
-            <th>id</th>
             <th>updated_at</th>
             <th>created_at</th>
             <th />
@@ -104,12 +114,13 @@ const TableSampleClients = () => {
         <tbody>
           {questionsPaginated.map((question: Question) => (
             <tr key={question.id}>
-              <td data-label="is_active">{question.is_active ? 'on' : 'off'}</td>
-              <td data-label="type">{question.type}</td>
-              <td data-label="source_text">{question.source_text}</td>
-              <td data-label="locale">{question.locale}</td>
-              <td data-label="category">{question.category}</td>
               <td data-label="id">{question.id}</td>
+              <td data-label="name">{limitLength(question.name_en)}</td>
+              <td data-label="is_active">{question.is_active ? 'on' : 'off'}</td>
+              <td data-label="type">{question.type_id}</td>
+              <td data-label="source_text">{question.source_text_en}</td>
+              <td data-label="locale">{question.options.length}</td>
+              <td data-label="category">{question.category_id}</td>
               <td data-label="updated_at">
                 <small className="text-gray-500 dark:text-slate-400">
                   {format(question.updated_at, 'dd/MM/yyyy')}
