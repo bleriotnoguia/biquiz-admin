@@ -1,24 +1,31 @@
 'use client'
 
 import { mdiPencil, mdiTrashCan } from '@mdi/js'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Question } from '@/modules/admin/interfaces'
 import Button from '../Button'
 import Buttons from '../Buttons'
 import CardBoxModal from '../CardBox/Modal'
 import { useQuestionsData } from '../../hooks/questionsData'
 import { format } from 'date-fns'
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikProps } from 'formik'
 import QuestionFormStepTwo from './QuestionFormStepTwo'
 import QuestionFormStepOne from './QuestionFormStepOne'
 import Tabs, { ITabs } from './Tabs'
 import { limitLength } from '../../utils/helpers'
 
 const TableSampleClients = () => {
+  const formRef = useRef<FormikProps<any>>(null)
   const questions = useQuestionsData()
   const perPage = 5
 
   const [currentPage, setCurrentPage] = useState(0)
+
+  const [question, setQuestion] = useState<Question>(null)
+
+  const [options, setOptions] = useState([
+    { id: null, is_correct: false, name_en: '', name_fr: '' },
+  ])
 
   const questionsPaginated = questions.slice(perPage * currentPage, perPage * (currentPage + 1))
 
@@ -30,17 +37,55 @@ const TableSampleClients = () => {
     pagesList.push(i)
   }
 
+  const handleSubmit = (values) => {
+    console.log(values)
+    // console.log(options)
+    // TODO : Mise en place de la logique de sauvegarde
+  }
+
   const [isModalInfoActive, setIsModalInfoActive] = useState(false)
   const [isModalTrashActive, setIsModalTrashActive] = useState(false)
+
+  const handleModalSubmitBtn = () => {
+    if (!formRef.current) return
+    formRef.current.handleSubmit()
+  }
 
   const handleModalAction = () => {
     setIsModalInfoActive(false)
     setIsModalTrashActive(false)
   }
 
+  const handleAddOption = () => {
+    if (options.length < 4) {
+      setOptions([...options, { id: null, is_correct: false, name_en: '', name_fr: '' }])
+    }
+  }
+
+  const handleRemoveOption = (index) => {
+    setOptions(options.filter((option, i) => i !== index))
+  }
+
+  const handleChangeOption = (index, lang, value) => {
+    const newInputs = [...options]
+    newInputs[index][lang] = value
+    setOptions(newInputs)
+  }
+
   const tabs: ITabs = [
     { id: 1, name: 'First step', content: <QuestionFormStepOne /> },
-    { id: 2, name: 'Second step', content: <QuestionFormStepTwo /> },
+    {
+      id: 2,
+      name: 'Second step',
+      content: (
+        <QuestionFormStepTwo
+          options={options}
+          handleAddOption={handleAddOption}
+          handleRemoveOption={handleRemoveOption}
+          handleChangeOption={handleChangeOption}
+        />
+      ),
+    },
   ]
 
   return (
@@ -50,27 +95,10 @@ const TableSampleClients = () => {
         buttonColor="info"
         buttonLabel="Done"
         isActive={isModalInfoActive}
-        onConfirm={handleModalAction}
+        onConfirm={handleModalSubmitBtn}
         onCancel={handleModalAction}
       >
-        <Formik
-          initialValues={{
-            name_en: '',
-            name_fr: '',
-            category: '2',
-            source_text_en: '',
-            source_text_fr: '',
-            is_active: false,
-            type: '1',
-            options: [
-              { en: '', fr: '' },
-              { en: '', fr: '' },
-              { en: '', fr: '' },
-              { en: '', fr: '' },
-            ],
-          }}
-          onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-        >
+        <Formik innerRef={formRef} initialValues={question} onSubmit={handleSubmit}>
           <Form>
             <Tabs tabs={tabs} />
 
@@ -91,9 +119,9 @@ const TableSampleClients = () => {
         onCancel={handleModalAction}
       >
         <p>
-          Lorem ipsum dolor sit amet <b>adipiscing elit</b>
+          Are you sure that you want to <b>delete this record ?</b>
         </p>
-        <p>This is sample modal</p>
+        <p>If yes, click on confirm button</p>
       </CardBoxModal>
 
       <table>
@@ -136,7 +164,11 @@ const TableSampleClients = () => {
                   <Button
                     color="info"
                     icon={mdiPencil}
-                    onClick={() => setIsModalInfoActive(true)}
+                    onClick={() => {
+                      setIsModalInfoActive(true)
+                      setOptions(question.options)
+                      setQuestion(question)
+                    }}
                     small
                   />
                   <Button
