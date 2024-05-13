@@ -1,10 +1,12 @@
+import Link from 'next/link'
+
 export default function TwoColApp() {
   return (
     <>
       <div className="container flex flex-wrap p-8 mx-auto xl:px-0 lg:gap-10 lg:flex-nowrap">
         <div className="flex flex-wrap items-start w-full lg:w-1/2">
           <div>
-            <div className="flex flex-col w-full mt-4">
+            <div className="flex flex-col w-full">
               <div className="relative">
                 <h3 className="max-w-2xl mt-3 text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:leading-tight lg:text-5xl dark:text-white">
                   Biquiz
@@ -129,13 +131,21 @@ export default function TwoColApp() {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center w-full lg:w-1/2">
+        <div className="flex flex-col items-center justify-center w-full lg:w-1/2">
           <iframe
             className="shadow-md"
             src="http://biquiz-app.vercel.app/"
             width={375}
             height={667}
           ></iframe>
+
+          <div className="mt-7">
+            <Link target="_blank" href="http://biquiz-app.vercel.app/">
+              <span className="w-full px-6 py-2 text-center text-white bg-indigo-500 rounded">
+                Full Screen
+              </span>
+            </Link>
+          </div>
         </div>
       </div>
     </>
