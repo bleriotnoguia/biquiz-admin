@@ -10,7 +10,7 @@ export const useQuestionsData = () => {
       const { data, error } = await supabase.rpc('get_question_details')
       if (error) console.error(error)
       // else console.log(data)
-      console.log('data', data)
+      // console.log('data', data)
 
       setQuestions(data)
     }

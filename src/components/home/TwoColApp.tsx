@@ -5,7 +5,7 @@ export default function TwoColApp() {
     <>
       <div className="container flex flex-wrap p-8 mx-auto xl:px-0 lg:gap-10 lg:flex-nowrap">
         <div className="flex flex-wrap items-start w-full lg:w-1/2">
-          <div>
+          <div className="mb-5">
             <div className="flex flex-col w-full">
               <div className="relative">
                 <h3 className="max-w-2xl mt-3 text-4xl font-bold leading-snug tracking-tight text-gray-800 lg:leading-tight lg:text-5xl dark:text-white">

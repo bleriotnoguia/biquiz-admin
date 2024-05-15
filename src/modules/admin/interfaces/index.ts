@@ -81,7 +81,7 @@ export type Question = {
   is_active: boolean
   category_id: number
   type_id: number
-  options: Option[]
+  options: Option[] | null
   created_at: string
   updated_at: string
 }
