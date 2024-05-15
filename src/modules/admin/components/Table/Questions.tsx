@@ -13,6 +13,7 @@ import QuestionFormStepTwo from './QuestionFormStepTwo'
 import QuestionFormStepOne from './QuestionFormStepOne'
 import Tabs, { ITabs } from './Tabs'
 import { limitLength } from '../../utils/helpers'
+import { supabase } from '@/config/supabase'
 
 const TableSampleClients = () => {
   const formRef = useRef<FormikProps<any>>(null)
@@ -37,10 +38,19 @@ const TableSampleClients = () => {
     pagesList.push(i)
   }
 
+  const updateQuestionData = async (values) => {
+    const { data, error } = await supabase.rpc('update_question_data', { p_data: values })
+    if (error) console.error(error)
+    else console.log(data)
+  }
+
   const handleSubmit = (values) => {
-    console.log(values)
-    // console.log(options)
-    // TODO : Mise en place de la logique de sauvegarde
+    // remove updated_at and created_at in values
+    delete values.updated_at
+    delete values.created_at
+    updateQuestionData(values)
+    // console.log('values', values)
+    // TODO : Mise en place de la logique de sauvegarde et de mise à jour des données
   }
 
   const [isModalInfoActive, setIsModalInfoActive] = useState(false)
