@@ -126,16 +126,6 @@ const TableQuestions = () => {
     setIsModalTrashActive(false)
   }
 
-  const handleAddOption = () => {
-    if (options.length < 4) {
-      setOptions([...options, { id: null, is_correct: false, name_en: '', name_fr: '' }])
-    }
-  }
-
-  const handleRemoveOption = (index) => {
-    setOptions(options.filter((option, i) => i !== index))
-  }
-
   const handleChangeOption = (index, lang, value) => {
     const newInputs = [...options]
     newInputs[index][lang] = value
@@ -147,14 +137,7 @@ const TableQuestions = () => {
     {
       id: 2,
       name: 'Second step',
-      content: (
-        <QuestionFormStepTwo
-          options={options}
-          handleAddOption={handleAddOption}
-          handleRemoveOption={handleRemoveOption}
-          handleChangeOption={handleChangeOption}
-        />
-      ),
+      content: <QuestionFormStepTwo options={options} handleChangeOption={handleChangeOption} />,
     },
   ]
 

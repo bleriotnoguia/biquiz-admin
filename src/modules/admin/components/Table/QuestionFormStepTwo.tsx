@@ -1,23 +1,15 @@
 import React from 'react'
 import FormField from '../Form/Field'
 import { Field } from 'formik'
-import { mdiPlus, mdiTrashCan } from '@mdi/js'
-import Button from '../Button'
 import { IOption } from '../../interfaces'
+import FormCheckRadio from '../Form/CheckRadio'
 
 type Props = {
   options: IOption[] | null
   handleChangeOption: (index, lang, value) => void
-  handleAddOption: () => void
-  handleRemoveOption: (index) => void
 }
 
-const QuestionFormStepTwo = ({
-  options,
-  handleChangeOption,
-  handleAddOption,
-  handleRemoveOption,
-}: Props) => {
+const QuestionFormStepTwo = ({ options, handleChangeOption }: Props) => {
   return (
     <>
       {options.map((option, i) => (
@@ -40,18 +32,21 @@ const QuestionFormStepTwo = ({
               />
             </FormField>
           </div>
-          <Button
-            color="danger"
-            icon={mdiTrashCan}
-            onClick={() => handleRemoveOption(i)}
-            small
-            className="self-end"
-          />
+          <div className="flex justify-end">
+            <FormField label="Is Correct">
+              <FormCheckRadio type="switch">
+                <Field
+                  type="checkbox"
+                  value={option.is_correct}
+                  checked={option.is_correct}
+                  onChange={(e) => handleChangeOption(i, 'is_correct', e.target.checked)}
+                  name={`option_${i + 1}_is_correct`}
+                />
+              </FormCheckRadio>
+            </FormField>
+          </div>
         </div>
       ))}
-      <div className="flex justify-end mt-4">
-        <Button color="info" icon={mdiPlus} onClick={handleAddOption} />
-      </div>
       <FormField label="Type" labelFor="type" help="Select one type">
         <Field name="type_id" id="type" component="select">
           <option value="1">multiple_choice_single_answer</option>
