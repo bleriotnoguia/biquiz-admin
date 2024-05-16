@@ -134,13 +134,13 @@ export default function TwoColApp() {
         <div className="flex flex-col items-center justify-center w-full lg:w-1/2">
           <iframe
             className="shadow-md"
-            src="http://biquiz-app.vercel.app/"
+            src="https://biquiz-app.vercel.app/"
             width={375}
             height={667}
           ></iframe>
 
           <div className="mt-7">
-            <Link target="_blank" href="http://biquiz-app.vercel.app/">
+            <Link target="_blank" href="https://biquiz-app.vercel.app/">
               <span className="w-full px-6 py-2 text-center text-white bg-indigo-500 rounded">
                 Full Screen
               </span>
