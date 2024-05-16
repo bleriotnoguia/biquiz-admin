@@ -13,10 +13,12 @@ import QuestionFormStepOne from './QuestionFormStepOne'
 import Tabs, { ITabs } from './Tabs'
 import { limitLength } from '../../utils/helpers'
 import { supabase } from '@/config/supabase'
+import toast from 'react-hot-toast'
 
 const TableQuestions = () => {
   const formRef = useRef<FormikProps<any>>(null)
   const [questions, setQuestions] = useState<IQuestion[]>([])
+  const [isSubmeting, setIsSubmeting] = useState(false)
   const perPage = 5
 
   const initialQuestion: IQuestion = {
@@ -80,6 +82,7 @@ const TableQuestions = () => {
     if (error) {
       console.error(error)
     } else {
+      toast.success('Successfully updated!')
       handleCloseModal()
       getQuestionsData()
     }
@@ -89,6 +92,7 @@ const TableQuestions = () => {
     const { error } = await supabase.rpc('insert_question_data', { p_data: values })
     if (error) console.error(error)
     else {
+      toast.success('Successfully inserted!')
       handleCloseModal()
       getQuestionsData()
     }
@@ -98,17 +102,20 @@ const TableQuestions = () => {
     const { error } = await supabase.rpc('delete_question_data', { question_id: id })
     if (error) console.error(error)
     else {
+      toast.success('Successfully deleted!')
       handleCloseModal()
       getQuestionsData()
     }
   }
 
   const handleSubmit = async (values: IQuestion) => {
+    setIsSubmeting(true)
     if (values.id) {
       await updateQuestionData(values)
     } else {
       await insertQuestionData(values)
     }
+    setIsSubmeting(false)
   }
 
   const [isModalInfoActive, setIsModalInfoActive] = useState(false)
@@ -150,7 +157,7 @@ const TableQuestions = () => {
       <CardBoxModal
         title="Question"
         buttonColor="info"
-        buttonLabel="Done"
+        buttonLabel={isSubmeting ? 'Loading...' : 'Submit'}
         isActive={isModalInfoActive}
         onConfirm={handleModalSubmitBtn}
         onCancel={handleCloseModal}
