@@ -5,7 +5,7 @@ import CardBox from '@/modules/admin/components/CardBox'
 
 import SectionMain from '@/modules/admin/components/Section/Main'
 import SectionTitleLineWithButton from '@/modules/admin/components/Section/TitleLineWithButton'
-import TableSampleClients from '@/modules/admin/components/Table/SampleClients'
+import TableCategories from '@/modules/admin/components/Table/Categories'
 
 const CategoriesPage = () => {
   return (
@@ -24,7 +24,7 @@ const CategoriesPage = () => {
         </SectionTitleLineWithButton>
 
         <CardBox className="mb-6" hasTable>
-          <TableSampleClients />
+          <TableCategories />
         </CardBox>
       </SectionMain>
     </>
