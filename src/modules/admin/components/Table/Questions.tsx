@@ -14,7 +14,7 @@ import Tabs, { ITabs } from './Tabs'
 import { limitLength } from '../../utils/helpers'
 import { supabase } from '@/config/supabase'
 
-const TableSampleClients = () => {
+const TableQuestions = () => {
   const formRef = useRef<FormikProps<any>>(null)
   const [questions, setQuestions] = useState<IQuestion[]>([])
   const perPage = 5
@@ -294,4 +294,4 @@ const TableSampleClients = () => {
   )
 }
 
-export default TableSampleClients
+export default TableQuestions
