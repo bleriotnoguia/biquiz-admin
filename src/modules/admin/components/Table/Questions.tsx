@@ -1,23 +1,65 @@
 'use client'
 
-import { mdiPencil, mdiTrashCan } from '@mdi/js'
-import React, { useState } from 'react'
-import { Question } from '@/modules/admin/interfaces'
+import { mdiPencil, mdiPlus, mdiTrashCan } from '@mdi/js'
+import React, { useEffect, useRef, useState } from 'react'
+import { IOption, IQuestion } from '@/modules/admin/interfaces'
 import Button from '../Button'
 import Buttons from '../Buttons'
 import CardBoxModal from '../CardBox/Modal'
-import { useQuestionsData } from '../../hooks/questionsData'
 import { format } from 'date-fns'
-import { Form, Formik } from 'formik'
+import { Form, Formik, FormikProps } from 'formik'
 import QuestionFormStepTwo from './QuestionFormStepTwo'
 import QuestionFormStepOne from './QuestionFormStepOne'
 import Tabs, { ITabs } from './Tabs'
+import { limitLength } from '../../utils/helpers'
+import { supabase } from '@/config/supabase'
+import toast from 'react-hot-toast'
 
-const TableSampleClients = () => {
-  const questions = useQuestionsData()
+const TableQuestions = () => {
+  const formRef = useRef<FormikProps<any>>(null)
+  const [questions, setQuestions] = useState<IQuestion[]>([])
+  const [isSubmeting, setIsSubmeting] = useState(false)
   const perPage = 5
 
+  const initialQuestion: IQuestion = {
+    name_en: '',
+    name_fr: '',
+    source_text_en: '',
+    source_text_fr: '',
+    is_active: true,
+    category_id: 1,
+    type_id: 1,
+    options: [
+      {
+        is_correct: false,
+        name_en: '',
+        name_fr: '',
+      },
+      {
+        is_correct: false,
+        name_en: '',
+        name_fr: '',
+      },
+      {
+        is_correct: false,
+        name_en: '',
+        name_fr: '',
+      },
+      {
+        is_correct: false,
+        name_en: '',
+        name_fr: '',
+      },
+    ],
+    created_at: '',
+    updated_at: '',
+  }
+
   const [currentPage, setCurrentPage] = useState(0)
+
+  const [question, setQuestion] = useState<IQuestion>(initialQuestion)
+
+  const [options, setOptions] = useState<IOption[]>(initialQuestion.options)
 
   const questionsPaginated = questions.slice(perPage * currentPage, perPage * (currentPage + 1))
 
@@ -29,45 +71,104 @@ const TableSampleClients = () => {
     pagesList.push(i)
   }
 
+  const getQuestionsData = async () => {
+    const { data, error } = await supabase.rpc('get_question_details')
+    if (error) console.error(error)
+    setQuestions(data)
+  }
+
+  const updateQuestionData = async (values) => {
+    const { error } = await supabase.rpc('update_question_data', { p_data: values })
+    if (error) {
+      console.error(error)
+    } else {
+      toast.success('Successfully updated!')
+      handleCloseModal()
+      getQuestionsData()
+    }
+  }
+
+  const insertQuestionData = async (values) => {
+    const { error } = await supabase.rpc('insert_question_data', { p_data: values })
+    if (error) console.error(error)
+    else {
+      toast.success('Successfully inserted!')
+      handleCloseModal()
+      getQuestionsData()
+    }
+  }
+
+  const deleteQuestionData = async (id) => {
+    const { error } = await supabase.rpc('delete_question_data', { question_id: id })
+    if (error) console.error(error)
+    else {
+      toast.success('Successfully deleted!')
+      handleCloseModal()
+      getQuestionsData()
+    }
+  }
+
+  const handleSubmit = async (values: IQuestion) => {
+    setIsSubmeting(true)
+    if (values.id) {
+      await updateQuestionData(values)
+    } else {
+      await insertQuestionData(values)
+    }
+    setIsSubmeting(false)
+  }
+
   const [isModalInfoActive, setIsModalInfoActive] = useState(false)
   const [isModalTrashActive, setIsModalTrashActive] = useState(false)
 
-  const handleModalAction = () => {
+  const handleModalSubmitBtn = () => {
+    if (!formRef.current) return
+    formRef.current.handleSubmit()
+  }
+
+  const handleCloseModal = () => {
+    setOptions(initialQuestion.options)
+    setQuestion(initialQuestion)
     setIsModalInfoActive(false)
     setIsModalTrashActive(false)
   }
 
+  const handleChangeOption = (index, lang, value) => {
+    const newInputs = [...options]
+    newInputs[index][lang] = value
+    setOptions(newInputs)
+  }
+
   const tabs: ITabs = [
     { id: 1, name: 'First step', content: <QuestionFormStepOne /> },
-    { id: 2, name: 'Second step', content: <QuestionFormStepTwo /> },
+    {
+      id: 2,
+      name: 'Second step',
+      content: <QuestionFormStepTwo options={options} handleChangeOption={handleChangeOption} />,
+    },
   ]
+
+  useEffect(() => {
+    getQuestionsData()
+  }, [])
 
   return (
     <>
       <CardBoxModal
         title="Question"
         buttonColor="info"
-        buttonLabel="Done"
+        buttonLabel={isSubmeting ? 'Loading...' : 'Submit'}
         isActive={isModalInfoActive}
-        onConfirm={handleModalAction}
-        onCancel={handleModalAction}
+        onConfirm={handleModalSubmitBtn}
+        onCancel={handleCloseModal}
       >
-        <Formik
-          initialValues={{
-            name_en: '',
-            name_fr: '',
-            category: '2',
-            source_text_en: '',
-            source_text_fr: '',
-          }}
-          onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-        >
+        <Formik innerRef={formRef} initialValues={question} onSubmit={handleSubmit}>
           <Form>
             <Tabs tabs={tabs} />
 
             {/* <Buttons>
               <Button type="submit" color="info" label="Submit" />
-              <Button type="reset" color="info" outline label="Reset" onClick={handleModalAction} />
+              <Button type="reset" color="info" outline label="Reset" onClick={handleCloseModal} />
             </Buttons> */}
           </Form>
         </Formik>
@@ -78,38 +179,51 @@ const TableSampleClients = () => {
         buttonColor="danger"
         buttonLabel="Confirm"
         isActive={isModalTrashActive}
-        onConfirm={handleModalAction}
-        onCancel={handleModalAction}
+        onConfirm={() => deleteQuestionData(question.id)}
+        onCancel={handleCloseModal}
       >
         <p>
-          Lorem ipsum dolor sit amet <b>adipiscing elit</b>
+          Are you sure that you want to delete the question : <b>{question.name_en}</b>
         </p>
-        <p>This is sample modal</p>
+        <p>If yes, click on confirm button</p>
       </CardBoxModal>
-
+      <div className="flex justify-end">
+        <Button
+          color="info"
+          icon={mdiPlus}
+          onClick={() => {
+            setIsModalInfoActive(true)
+            setOptions(question.options)
+            setQuestion(question)
+          }}
+          small
+        />
+      </div>
       <table>
         <thead>
           <tr>
+            <th>id</th>
+            <th>name</th>
             <th>is_active</th>
             <th>type</th>
             <th>source_text</th>
-            <th>locale</th>
+            <th>options</th>
             <th>category</th>
-            <th>id</th>
             <th>updated_at</th>
             <th>created_at</th>
             <th />
           </tr>
         </thead>
         <tbody>
-          {questionsPaginated.map((question: Question) => (
+          {questionsPaginated.map((question: IQuestion) => (
             <tr key={question.id}>
-              <td data-label="is_active">{question.is_active ? 'on' : 'off'}</td>
-              <td data-label="type">{question.type}</td>
-              <td data-label="source_text">{question.source_text}</td>
-              <td data-label="locale">{question.locale}</td>
-              <td data-label="category">{question.category}</td>
               <td data-label="id">{question.id}</td>
+              <td data-label="name">{limitLength(question.name_en)}</td>
+              <td data-label="is_active">{question.is_active ? 'on' : 'off'}</td>
+              <td data-label="type">{question.type_id}</td>
+              <td data-label="source_text">{question.source_text_en}</td>
+              <td data-label="locale">{question.options.length}</td>
+              <td data-label="category">{question.category_id}</td>
               <td data-label="updated_at">
                 <small className="text-gray-500 dark:text-slate-400">
                   {format(question.updated_at, 'dd/MM/yyyy')}
@@ -125,13 +239,20 @@ const TableSampleClients = () => {
                   <Button
                     color="info"
                     icon={mdiPencil}
-                    onClick={() => setIsModalInfoActive(true)}
+                    onClick={() => {
+                      setIsModalInfoActive(true)
+                      setOptions(question.options)
+                      setQuestion(question)
+                    }}
                     small
                   />
                   <Button
                     color="danger"
                     icon={mdiTrashCan}
-                    onClick={() => setIsModalTrashActive(true)}
+                    onClick={() => {
+                      setQuestion(question)
+                      setIsModalTrashActive(true)
+                    }}
                     small
                   />
                 </Buttons>
@@ -163,4 +284,4 @@ const TableSampleClients = () => {
   )
 }
 
-export default TableSampleClients
+export default TableQuestions

@@ -14,6 +14,7 @@ import { Field, Form, Formik } from 'formik'
 import Loading from '@/components/Loading'
 import menuNavBar from '@/modules/admin/menuNavBar'
 import { useLoggedInUserData } from '@/hooks/useLoggedInUserData'
+import { Toaster } from 'react-hot-toast'
 
 type Props = {
   children: ReactNode
@@ -91,6 +92,7 @@ export default function LayoutAuthenticated({ children }: Props) {
               menu={menuAside}
               onAsideLgClose={() => setIsAsideLgActive(false)}
             />
+            <Toaster />
             {children}
             <FooterBar>
               | Open{` `}
