@@ -72,22 +72,22 @@ export type UserForm = {
   email: string
 }
 
-export type Question = {
-  id: number
+export type IQuestion = {
+  id?: number
   name_en: string
   name_fr: string
   source_text_en: string
   source_text_fr: string
   is_active: boolean
-  category_id: number
-  type_id: number
-  options: Option[] | null
+  category_id: number | undefined
+  type_id: number | undefined
+  options: IOption[]
   created_at: string
   updated_at: string
 }
 
-export type Option = {
-  id: number
+export type IOption = {
+  id?: number
   is_correct: boolean
   name_en: string
   name_fr: string
