@@ -3,10 +3,10 @@ import FormField from '../Form/Field'
 import { Field } from 'formik'
 import { mdiPlus, mdiTrashCan } from '@mdi/js'
 import Button from '../Button'
-import { Option } from '../../interfaces'
+import { IOption } from '../../interfaces'
 
 type Props = {
-  options: Option[] | null
+  options: IOption[] | null
   handleChangeOption: (index, lang, value) => void
   handleAddOption: () => void
   handleRemoveOption: (index) => void
