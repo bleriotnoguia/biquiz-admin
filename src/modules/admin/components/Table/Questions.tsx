@@ -69,7 +69,7 @@ const TableSampleClients = () => {
     pagesList.push(i)
   }
 
-  const getData = async () => {
+  const getQuestionsData = async () => {
     const { data, error } = await supabase.rpc('get_question_details')
     if (error) console.error(error)
     setQuestions(data)
@@ -81,7 +81,7 @@ const TableSampleClients = () => {
       console.error(error)
     } else {
       handleCloseModal()
-      getData()
+      getQuestionsData()
     }
   }
 
@@ -90,7 +90,7 @@ const TableSampleClients = () => {
     if (error) console.error(error)
     else {
       handleCloseModal()
-      getData()
+      getQuestionsData()
     }
   }
 
@@ -99,7 +99,7 @@ const TableSampleClients = () => {
     if (error) console.error(error)
     else {
       handleCloseModal()
-      getData()
+      getQuestionsData()
     }
   }
 
@@ -159,7 +159,7 @@ const TableSampleClients = () => {
   ]
 
   useEffect(() => {
-    getData()
+    getQuestionsData()
   }, [])
 
   return (
