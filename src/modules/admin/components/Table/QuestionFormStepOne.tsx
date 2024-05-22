@@ -3,8 +3,21 @@ import { Field } from 'formik'
 import FormField from '../Form/Field'
 import FormCheckRadio from '../Form/CheckRadio'
 import { mdiMail } from '@mdi/js'
+import { supabase } from '@/config/supabase'
 
 const QuestionFormStepOne = () => {
+  const [categories, setCategories] = React.useState([])
+
+  const getCategoriesData = async () => {
+    const { data, error } = await supabase.rpc('get_categories')
+    if (error) console.error(error)
+    setCategories(data)
+  }
+
+  React.useEffect(() => {
+    getCategoriesData()
+  }, [])
+
   return (
     <>
       <FormField label="Name - en | fr" icons={[mdiMail, mdiMail]}>
@@ -14,9 +27,11 @@ const QuestionFormStepOne = () => {
 
       <FormField label="Category" labelFor="category" help="Select one category">
         <Field name="category_id" id="category" component="select">
-          <option value="1">Homme / Man</option>
-          <option value="2">Femme / Women</option>
-          <option value="3">Lieux / places</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.translate[0].name} / {category.translate[1].name}
+            </option>
+          ))}
         </Field>
       </FormField>
 
