@@ -3,6 +3,7 @@ import FormField from '../Form/Field'
 import { Field } from 'formik'
 import { IOption } from '../../interfaces'
 import FormCheckRadio from '../Form/CheckRadio'
+import { supabase } from '@/config/supabase'
 
 type Props = {
   options: IOption[] | null
@@ -10,6 +11,18 @@ type Props = {
 }
 
 const QuestionFormStepTwo = ({ options, handleChangeOption }: Props) => {
+  const [questionTypes, setQuestionTypes] = React.useState([])
+
+  const getQuestionTypesData = async () => {
+    const { data, error } = await supabase.rpc('get_question_types')
+    console.log(data, error)
+    if (error) console.error(error)
+    setQuestionTypes(data)
+  }
+
+  React.useEffect(() => {
+    getQuestionTypesData()
+  }, [])
   return (
     <>
       {options.map((option, i) => (
@@ -49,8 +62,11 @@ const QuestionFormStepTwo = ({ options, handleChangeOption }: Props) => {
       ))}
       <FormField label="Type" labelFor="type" help="Select one type">
         <Field name="type_id" id="type" component="select">
-          <option value="1">multiple_choice_single_answer</option>
-          <option value="2">text_complete</option>
+          {questionTypes.map((type) => (
+            <option key={type.id} value={type.id}>
+              {type.translate[0].name} / {type.translate[1].name}
+            </option>
+          ))}
         </Field>
       </FormField>
     </>
