@@ -133,7 +133,7 @@ export default function TwoColApp() {
         </div>
         <div className="flex flex-col items-center justify-center w-full lg:w-1/2">
           <iframe
-            className="shadow-md"
+            className="shadow-md border-slate-200 border-2 rounded-md"
             src="https://biquiz-app.vercel.app/"
             width={375}
             height={667}
