@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { containerMaxW } from '@/config'
-import JustboilLogo from './JustboilLogo'
+import BiquizAppLogo from './BiquizLogo'
 
 type Props = {
   children: ReactNode
@@ -24,8 +24,8 @@ export default function FooterBar({ children }: Props) {
           {children}
         </div>
         <div className="md:py-2">
-          <a href="https://bleriotnoguia.com" rel="noreferrer" target="_blank">
-            <JustboilLogo className="w-auto h-8 md:h-6 mx-auto" />
+          <a href="https://biquiz.bleriotnoguia.com" rel="noreferrer" target="_blank">
+            <BiquizAppLogo className="w-auto mx-auto" />
           </a>
         </div>
       </div>
