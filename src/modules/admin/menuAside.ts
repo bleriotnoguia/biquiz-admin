@@ -1,11 +1,4 @@
-import {
-  mdiAccountCircle,
-  mdiMonitor,
-  mdiTable,
-  mdiViewList,
-  mdiTelevisionGuide,
-  mdiHome,
-} from '@mdi/js'
+import { mdiAccountCircle, mdiMonitor, mdiTable, mdiTelevisionGuide, mdiHome } from '@mdi/js'
 import { MenuAsideItem } from './interfaces'
 
 const menuAside: MenuAsideItem[] = [
@@ -30,11 +23,6 @@ const menuAside: MenuAsideItem[] = [
     icon: mdiTable,
   },
   {
-    href: '/admin/tables',
-    label: 'Tables',
-    icon: mdiTable,
-  },
-  {
     href: '/admin/ui',
     label: 'UI',
     icon: mdiTelevisionGuide,
@@ -43,18 +31,6 @@ const menuAside: MenuAsideItem[] = [
     href: '/admin/profile',
     label: 'Profile',
     icon: mdiAccountCircle,
-  },
-  {
-    label: 'Dropdown',
-    icon: mdiViewList,
-    menu: [
-      {
-        label: 'Item One',
-      },
-      {
-        label: 'Item Two',
-      },
-    ],
   },
 ]
 

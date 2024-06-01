@@ -1,39 +1,7 @@
-import {
-  mdiMenu,
-  mdiClockOutline,
-  mdiCloud,
-  mdiCrop,
-  mdiAccount,
-  mdiCogOutline,
-  mdiEmail,
-  mdiLogout,
-  mdiThemeLightDark,
-  mdiGithub,
-} from '@mdi/js'
+import { mdiAccount, mdiCogOutline, mdiLogout, mdiThemeLightDark, mdiGithub } from '@mdi/js'
 import { MenuNavBarItem } from './interfaces'
 
 const menuNavBar: MenuNavBarItem[] = [
-  {
-    icon: mdiMenu,
-    label: 'Sample menu',
-    menu: [
-      {
-        icon: mdiClockOutline,
-        label: 'Item One',
-      },
-      {
-        icon: mdiCloud,
-        label: 'Item Two',
-      },
-      {
-        isDivider: true,
-      },
-      {
-        icon: mdiCrop,
-        label: 'Item Last',
-      },
-    ],
-  },
   {
     isCurrentUser: true,
     menu: [
@@ -45,10 +13,6 @@ const menuNavBar: MenuNavBarItem[] = [
       {
         icon: mdiCogOutline,
         label: 'Settings',
-      },
-      {
-        icon: mdiEmail,
-        label: 'Messages',
       },
       {
         isDivider: true,
@@ -70,7 +34,7 @@ const menuNavBar: MenuNavBarItem[] = [
     icon: mdiGithub,
     label: 'GitHub',
     isDesktopNoLabel: true,
-    href: 'https://github.com/bleriotnoguia/biquiz-backend',
+    href: 'https://github.com/bleriotnoguia/biquiz-admin',
     target: '_blank',
   },
   {

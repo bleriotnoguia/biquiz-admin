@@ -9,8 +9,6 @@ import NavBar from '@/modules/admin/components/NavBar'
 import NavBarItemPlain from '@/modules/admin/components/NavBar/Item/Plain'
 import AsideMenu from '@/modules/admin/components/AsideMenu'
 import FooterBar from '@/modules/admin/components/FooterBar'
-import FormField from '@/modules/admin/components/Form/Field'
-import { Field, Form, Formik } from 'formik'
 import Loading from '@/components/Loading'
 import menuNavBar from '@/modules/admin/menuNavBar'
 import { useLoggedInUserData } from '@/hooks/useLoggedInUserData'
@@ -70,20 +68,6 @@ export default function LayoutAuthenticated({ children }: Props) {
                 onClick={() => setIsAsideLgActive(true)}
               >
                 <Icon path={mdiMenu} size="24" />
-              </NavBarItemPlain>
-              <NavBarItemPlain useMargin>
-                <Formik
-                  initialValues={{
-                    search: '',
-                  }}
-                  onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-                >
-                  <Form>
-                    <FormField isBorderless isTransparent>
-                      <Field name="search" placeholder="Search" />
-                    </FormField>
-                  </Form>
-                </Formik>
               </NavBarItemPlain>
             </NavBar>
             <AsideMenu
