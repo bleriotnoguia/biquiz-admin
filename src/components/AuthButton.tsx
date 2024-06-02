@@ -30,7 +30,7 @@ export default function AuthButton() {
     </div>
   ) : (
     <Link href="/login" className="py-3 px-3 text-slate-300 rounded-md no-underline float-right">
-      Login
+      {/* Login */}
     </Link>
   )
 }
