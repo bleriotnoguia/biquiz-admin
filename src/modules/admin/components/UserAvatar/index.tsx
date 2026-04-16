@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 // Why disabled:
-// avatars.dicebear.com provides svg avatars
+// api.dicebear.com provides svg avatars
 // next/image needs dangerouslyAllowSVG option for that
 
 import React, { ReactNode } from 'react'
@@ -24,11 +24,11 @@ export default function UserAvatar({
   )}`
 
   return (
-    <div className={className}>
+    <div className={`relative overflow-hidden ${className}`}>
       <img
         src={avatarImage}
         alt={username}
-        className="rounded-full block h-auto w-full max-w-full bg-gray-100 dark:bg-slate-800"
+        className="block w-full h-full object-cover bg-gray-100 dark:bg-slate-800"
       />
       {children}
     </div>

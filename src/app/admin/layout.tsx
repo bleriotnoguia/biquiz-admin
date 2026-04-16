@@ -8,7 +8,6 @@ import Icon from '@/modules/admin/components/Icon'
 import NavBar from '@/modules/admin/components/NavBar'
 import NavBarItemPlain from '@/modules/admin/components/NavBar/Item/Plain'
 import AsideMenu from '@/modules/admin/components/AsideMenu'
-import FooterBar from '@/modules/admin/components/FooterBar'
 import Loading from '@/components/Loading'
 import menuNavBar from '@/modules/admin/menuNavBar'
 import { useLoggedInUserData } from '@/hooks/useLoggedInUserData'
@@ -60,17 +59,6 @@ export default function LayoutAuthenticated({ children }: Props) {
             />
             <Toaster />
             {children}
-            <FooterBar>
-              | Open{` `}
-              <a
-                href="https://biquiz.bleriotnoguia.com"
-                target="_blank"
-                rel="noreferrer"
-                className="text-blue-600"
-              >
-                Biquiz
-              </a>
-            </FooterBar>
           </div>
         </div>
       ) : (

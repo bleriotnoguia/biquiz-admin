@@ -2,7 +2,7 @@ import React from 'react'
 import { Field } from 'formik'
 import FormField from '../Form/Field'
 import FormCheckRadio from '../Form/CheckRadio'
-import { mdiMail } from '@mdi/js'
+import { mdiTranslate, mdiBookOpenPageVariant } from '@mdi/js'
 import { supabase } from '@/config/supabase'
 
 const QuestionFormStepOne = () => {
@@ -19,13 +19,13 @@ const QuestionFormStepOne = () => {
   }, [])
 
   return (
-    <>
-      <FormField label="Name - en | fr" icons={[mdiMail, mdiMail]}>
-        <Field name="name_en" placeholder="Name EN" />
-        <Field name="name_fr" placeholder="Name FR" />
+    <div className="space-y-1">
+      <FormField label="Question — EN | FR" icons={[mdiTranslate, mdiTranslate]}>
+        <Field name="name_en" placeholder="Question in English" />
+        <Field name="name_fr" placeholder="Question en Français" />
       </FormField>
 
-      <FormField label="Category" labelFor="category" help="Select one category">
+      <FormField label="Category" labelFor="category" help="Select the question's category">
         <Field name="category_id" id="category" component="select">
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
@@ -35,17 +35,17 @@ const QuestionFormStepOne = () => {
         </Field>
       </FormField>
 
-      <FormField label="Source Text - en | fr" icons={[mdiMail, mdiMail]}>
-        <Field name="source_text_en" placeholder="Source Text EN" />
-        <Field name="source_text_fr" placeholder="Source Text FR" />
+      <FormField label="Source text — EN | FR" icons={[mdiBookOpenPageVariant, mdiBookOpenPageVariant]}>
+        <Field name="source_text_en" placeholder="e.g. Luke 1:11-17" />
+        <Field name="source_text_fr" placeholder="ex. Luc 1:11-17" />
       </FormField>
 
-      <FormField label="Is Active">
-        <FormCheckRadio type="switch">
+      <FormField label="Active">
+        <FormCheckRadio type="switch" label="Published and visible to users">
           <Field type="checkbox" name="is_active" />
         </FormCheckRadio>
       </FormField>
-    </>
+    </div>
   )
 }
 

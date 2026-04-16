@@ -11,6 +11,9 @@ import NavBarMenuList from '../MenuList'
 import { MenuNavBarItem } from '../../../interfaces'
 import { useAppDispatch, useAppSelector } from '@/config/store'
 import { setDarkMode } from '@/slices/darkModeSlice'
+import { signOut } from '@/modules/auth/auth.actions'
+import { useRouter } from 'next/navigation'
+import LogoutConfirmModal from '../../LogoutConfirmModal'
 
 type Props = {
   item: MenuNavBarItem
@@ -18,10 +21,18 @@ type Props = {
 
 export default function NavBarItem({ item }: Props) {
   const dispatch = useAppDispatch()
+  const router = useRouter()
 
   const userName = useAppSelector((state) => state.auth.session.user?.name)
 
   const [isDropdownActive, setIsDropdownActive] = useState(false)
+  const [isLogoutModalActive, setIsLogoutModalActive] = useState(false)
+
+  const handleLogoutConfirm = async () => {
+    await dispatch(signOut())
+    setIsLogoutModalActive(false)
+    router.push('/login')
+  }
 
   const componentClass = [
     'block lg:flex items-center relative cursor-pointer',
@@ -34,7 +45,12 @@ export default function NavBarItem({ item }: Props) {
 
   const itemLabel = item.isCurrentUser ? userName : item.label
 
-  const handleMenuClick = () => {
+  const handleMenuClick = async () => {
+    if (item.isLogout) {
+      setIsLogoutModalActive(true)
+      return
+    }
+
     if (item.menu) {
       setIsDropdownActive(!isDropdownActive)
     }
@@ -52,7 +68,7 @@ export default function NavBarItem({ item }: Props) {
             ? 'bg-gray-100 dark:bg-slate-800 lg:bg-transparent lg:dark:bg-transparent p-3 lg:p-0'
             : ''
         }`}
-        onClick={handleMenuClick}
+        onClick={() => void handleMenuClick()}
       >
         {item.isCurrentUser && <UserAvatarCurrentUser className="w-6 h-6 mr-3 inline-flex" />}
         {item.icon && <Icon path={item.icon} className="transition-colors" />}
@@ -79,6 +95,11 @@ export default function NavBarItem({ item }: Props) {
           <NavBarMenuList menu={item.menu} />
         </div>
       )}
+      <LogoutConfirmModal
+        isActive={isLogoutModalActive}
+        onConfirm={() => void handleLogoutConfirm()}
+        onCancel={() => setIsLogoutModalActive(false)}
+      />
     </>
   )
 

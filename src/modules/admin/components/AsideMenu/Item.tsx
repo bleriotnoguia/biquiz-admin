@@ -8,6 +8,10 @@ import { getButtonColor } from '@/colors'
 import AsideMenuList from './List'
 import { MenuAsideItem } from '@/modules/admin/interfaces'
 import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import { useAppDispatch } from '@/config/store'
+import { signOut } from '@/modules/auth/auth.actions'
+import LogoutConfirmModal from '../LogoutConfirmModal'
 
 type Props = {
   item: MenuAsideItem
@@ -18,6 +22,15 @@ const AsideMenuItem = ({ item, isDropdownList = false }: Props) => {
   const [isLinkActive, setIsLinkActive] = useState(false)
   const [isDropdownActive, setIsDropdownActive] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+  const [isLogoutModalActive, setIsLogoutModalActive] = useState(false)
+
+  const handleLogoutConfirm = async () => {
+    await dispatch(signOut())
+    setIsLogoutModalActive(false)
+    router.push('/login')
+  }
 
   useEffect(() => {
     if (item.href && pathname) {
@@ -25,6 +38,15 @@ const AsideMenuItem = ({ item, isDropdownList = false }: Props) => {
       setIsLinkActive(linkPathName === pathname)
     }
   }, [item.href, pathname])
+
+  const handleItemClick = async () => {
+    if (item.isLogout) {
+      setIsLogoutModalActive(true)
+      return
+    }
+
+    setIsDropdownActive(!isDropdownActive)
+  }
 
   const asideMenuItemInnerContents = (
     <>
@@ -59,7 +81,7 @@ const AsideMenuItem = ({ item, isDropdownList = false }: Props) => {
             {asideMenuItemInnerContents}
           </Link>
         ) : (
-          <div className={colorClass} onClick={() => setIsDropdownActive(!isDropdownActive)}>
+          <div className={colorClass} onClick={() => void handleItemClick()}>
             {asideMenuItemInnerContents}
           </div>
         )}
@@ -86,7 +108,7 @@ const AsideMenuItem = ({ item, isDropdownList = false }: Props) => {
         </Link>
       )}
       {!item.href && (
-        <div className={componentClass} onClick={() => setIsDropdownActive(!isDropdownActive)}>
+        <div className={componentClass} onClick={() => void handleItemClick()}>
           {asideMenuItemInnerContents}
         </div>
       )}
@@ -99,6 +121,11 @@ const AsideMenuItem = ({ item, isDropdownList = false }: Props) => {
           isDropdownList
         />
       )}
+      <LogoutConfirmModal
+        isActive={isLogoutModalActive}
+        onConfirm={() => void handleLogoutConfirm()}
+        onCancel={() => setIsLogoutModalActive(false)}
+      />
     </li>
   )
 }

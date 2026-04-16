@@ -1,7 +1,5 @@
 import { mdiCheckDecagram } from '@mdi/js'
-import { Field, Form, Formik } from 'formik'
 import CardBox from '.'
-import FormCheckRadio from '../Form/CheckRadio'
 import PillTag from '../PillTag'
 import UserAvatarCurrentUser from '../UserAvatar/CurrentUser'
 import { useAppSelector } from '@/config/store'
@@ -12,35 +10,29 @@ type Props = {
 
 const CardBoxUser = ({ className }: Props) => {
   const userName = useAppSelector((state) => state.auth.session.user?.name)
+  const userEmail = useAppSelector((state) => state.auth.session.user?.email)
 
   return (
-    <CardBox className={className}>
-      <div className="flex flex-col lg:flex-row items-center justify-around lg:justify-center">
-        <UserAvatarCurrentUser className="mb-6 lg:mb-0 lg:mx-12" />
-        <div className="space-y-3 text-center md:text-left lg:mx-12">
-          <div className="flex justify-center md:block">
-            <Formik
-              initialValues={{
-                notifications: ['1'],
-              }}
-              onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
-            >
-              <Form>
-                <FormCheckRadio type="switch" label="Notifications">
-                  <Field type="checkbox" name="notifications" value={'1'} />
-                </FormCheckRadio>
-              </Form>
-            </Formik>
+    <CardBox className={`overflow-hidden ${className}`} hasComponentLayout>
+      {/* Gradient banner */}
+      <div className="h-24 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-t-2xl" />
+
+      {/* Avatar + info */}
+      <div className="px-6 pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between -mt-10 gap-4">
+          <div className="w-20 h-20 rounded-2xl ring-4 ring-white dark:ring-slate-800 overflow-hidden bg-white dark:bg-slate-800 flex-shrink-0">
+            <UserAvatarCurrentUser className="w-full h-full" />
           </div>
-          <h1 className="text-2xl">
-            Howdy, <b>{userName}</b>!
-          </h1>
-          <p>
-            Last login <b>12 mins ago</b> from <b>127.0.0.1</b>
-          </p>
-          <div className="flex justify-center md:block">
-            <PillTag label="Verified" color="info" icon={mdiCheckDecagram} />
+          <div className="mb-1">
+            <PillTag label="Verified" color="info" icon={mdiCheckDecagram} small />
           </div>
+        </div>
+
+        <div className="mt-4">
+          <h2 className="text-xl font-bold text-slate-800 dark:text-white">
+            {userName ?? 'User'}
+          </h2>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{userEmail}</p>
         </div>
       </div>
     </CardBox>
