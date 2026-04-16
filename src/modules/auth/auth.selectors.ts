@@ -39,3 +39,14 @@ export const selectSignUpError = ({ auth }: RootState): CustomError | null => au
 export const selectSignUpStatus = ({ auth }: RootState): RequestStatus => auth?.signUpStatus
 
 export const selectSignOutStatus = ({ auth }: RootState): RequestStatus => auth?.signOutStatus
+
+export const selectMagicLinkError = ({ auth }: RootState): CustomError | null => auth?.magicLinkError
+export const selectMagicLinkStatus = ({ auth }: RootState): RequestStatus => auth?.magicLinkStatus
+
+export const selectResetPasswordRequestError = ({ auth }: RootState): CustomError | null =>
+  auth?.resetPasswordRequestError
+export const selectResetPasswordRequestStatus = ({ auth }: RootState): RequestStatus =>
+  auth?.resetPasswordRequestStatus
+
+export const selectUpdatePasswordError = ({ auth }: RootState): CustomError | null => auth?.updatePasswordError
+export const selectUpdatePasswordStatus = ({ auth }: RootState): RequestStatus => auth?.updatePasswordStatus

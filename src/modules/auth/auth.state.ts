@@ -10,6 +10,12 @@ export interface AuthState {
 	signUpStatus: RequestStatus
 	signOutError: CustomError | null
 	signOutStatus: RequestStatus
+	magicLinkError: CustomError | null
+	magicLinkStatus: RequestStatus
+	resetPasswordRequestError: CustomError | null
+	resetPasswordRequestStatus: RequestStatus
+	updatePasswordError: CustomError | null
+	updatePasswordStatus: RequestStatus
 }
 
 export const initialState: AuthState = {
@@ -20,4 +26,10 @@ export const initialState: AuthState = {
 	signUpStatus: RequestStatus.IDLE,
 	signOutError: null,
 	signOutStatus: RequestStatus.IDLE,
+	magicLinkError: null,
+	magicLinkStatus: RequestStatus.IDLE,
+	resetPasswordRequestError: null,
+	resetPasswordRequestStatus: RequestStatus.IDLE,
+	updatePasswordError: null,
+	updatePasswordStatus: RequestStatus.IDLE,
 }

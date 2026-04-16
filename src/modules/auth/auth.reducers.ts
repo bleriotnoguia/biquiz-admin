@@ -41,4 +41,26 @@ export const authReducers = {
   ) => {
     state.session = payload.localSessionData
   },
+  magicLink: (state: AuthState, { payload }: PayloadAction<{ error: CustomError | null }>) => {
+    state.magicLinkError = payload.error
+    state.magicLinkStatus = payload.error ? RequestStatus.FAILED : RequestStatus.COMPLETED
+  },
+  resetPasswordRequest: (state: AuthState, { payload }: PayloadAction<{ error: CustomError | null }>) => {
+    state.resetPasswordRequestError = payload.error
+    state.resetPasswordRequestStatus = payload.error ? RequestStatus.FAILED : RequestStatus.COMPLETED
+  },
+  updatePassword: (state: AuthState, { payload }: PayloadAction<{ error: CustomError | null }>) => {
+    state.updatePasswordError = payload.error
+    state.updatePasswordStatus = payload.error ? RequestStatus.FAILED : RequestStatus.COMPLETED
+  },
+  resetAuthStatus: (state: AuthState, { payload }: PayloadAction<{ fields: (keyof AuthState)[] }>) => {
+    const s = state as unknown as Record<string, unknown>
+    payload.fields.forEach((field) => {
+      if (field.endsWith('Status')) {
+        s[field] = RequestStatus.IDLE
+      } else if (field.endsWith('Error')) {
+        s[field] = null
+      }
+    })
+  },
 }
