@@ -40,7 +40,7 @@ const CardBoxModal = ({
   return (
     <OverlayLayer onClick={onCancel} className={onCancel ? 'cursor-pointer' : ''}>
       <CardBox
-        className={`transition-transform shadow-lg max-h-modal w-11/12 md:w-4/5 lg:w-3/5 xl:w-6/12 z-50`}
+        className={`shadow-2xl max-h-modal w-11/12 md:w-3/4 lg:w-1/2 xl:w-5/12 z-50 cursor-default`}
         isModal
         footer={footer}
       >

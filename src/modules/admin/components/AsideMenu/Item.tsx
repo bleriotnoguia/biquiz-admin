@@ -19,12 +19,9 @@ const AsideMenuItem = ({ item, isDropdownList = false }: Props) => {
   const [isDropdownActive, setIsDropdownActive] = useState(false)
   const pathname = usePathname()
 
-  const activeClassAddon = !item.color && isLinkActive ? 'aside-menu-item-active font-bold' : ''
-
   useEffect(() => {
     if (item.href && pathname) {
       const linkPathName = new URL(item.href, location.href).pathname
-
       setIsLinkActive(linkPathName === pathname)
     }
   }, [item.href, pathname])
@@ -32,35 +29,57 @@ const AsideMenuItem = ({ item, isDropdownList = false }: Props) => {
   const asideMenuItemInnerContents = (
     <>
       {item.icon && (
-        <Icon path={item.icon} className={`flex-none ${activeClassAddon}`} w="w-16" size="18" />
+        <Icon
+          path={item.icon}
+          className={`flex-none transition-colors`}
+          w="w-10"
+          size="18"
+        />
       )}
-      <span
-        className={`grow text-ellipsis line-clamp-1 ${
-          item.menu ? '' : 'pr-12'
-        } ${activeClassAddon}`}
-      >
+      <span className={`grow text-ellipsis line-clamp-1 text-sm font-medium ${item.menu ? '' : 'pr-4'}`}>
         {item.label}
       </span>
       {item.menu && (
         <Icon
           path={isDropdownActive ? mdiMinus : mdiPlus}
-          className={`flex-none ${activeClassAddon}`}
-          w="w-12"
+          className={`flex-none`}
+          w="w-8"
+          size="16"
         />
       )}
     </>
   )
 
+  if (item.color) {
+    const colorClass = `flex cursor-pointer rounded-lg py-2.5 px-3 transition-all duration-150 ${getButtonColor(item.color, false, true)}`
+    return (
+      <li>
+        {item.href ? (
+          <Link href={item.href} target={item.target} className={colorClass}>
+            {asideMenuItemInnerContents}
+          </Link>
+        ) : (
+          <div className={colorClass} onClick={() => setIsDropdownActive(!isDropdownActive)}>
+            {asideMenuItemInnerContents}
+          </div>
+        )}
+      </li>
+    )
+  }
+
+  const baseClass = `flex cursor-pointer rounded-lg py-2.5 px-3 transition-all duration-150`
+  const activeClass = isLinkActive
+    ? 'aside-menu-item aside-menu-item-active'
+    : 'aside-menu-item'
+
   const componentClass = [
-    'flex cursor-pointer',
-    isDropdownList ? 'py-3 px-6 text-sm' : 'py-3',
-    item.color
-      ? getButtonColor(item.color, false, true)
-      : `aside-menu-item dark:text-slate-300 dark:hover:text-white`,
+    baseClass,
+    isDropdownList ? 'text-sm pl-8' : '',
+    `${activeClass} dark:text-slate-300 dark:hover:text-white`,
   ].join(' ')
 
   return (
-    <li>
+    <li className="mb-1">
       {item.href && (
         <Link href={item.href} target={item.target} className={componentClass}>
           {asideMenuItemInnerContents}

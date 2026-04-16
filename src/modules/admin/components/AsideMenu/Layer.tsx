@@ -29,34 +29,53 @@ export default function AsideMenuLayer({ menu, className = '', ...props }: Props
 
   return (
     <aside
-      className={`${className} zzz lg:py-2 lg:pl-2 w-60 fixed flex z-40 top-0 h-screen transition-position overflow-hidden`}
+      className={`${className} lg:py-2 lg:pl-2 w-60 fixed flex z-40 top-0 h-screen transition-position overflow-hidden`}
     >
       <div
         className={`aside lg:rounded-2xl flex-1 flex flex-col overflow-hidden dark:bg-slate-900`}
       >
+        {/* Brand / Logo */}
         <div
-          className={`aside-brand flex flex-row h-14 items-center justify-between dark:bg-slate-900`}
+          className={`aside-brand flex flex-row h-16 items-center justify-between px-4 dark:bg-slate-900`}
         >
-          <div className="text-center flex-1 lg:text-left lg:pl-6 xl:text-center xl:pl-0">
-            <b className="font-black">Biquiz Admin</b>
+          <div className="flex items-center gap-2 flex-1">
+            <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center flex-shrink-0">
+              <span className="text-white font-black text-sm">B</span>
+            </div>
+            <div>
+              <b className="font-black text-white text-sm tracking-wide">Biquiz</b>
+              <p className="text-slate-400 text-xs leading-none">Admin</p>
+            </div>
           </div>
           <button
-            className="hidden lg:inline-block xl:hidden p-3"
+            className="hidden lg:inline-block xl:hidden p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-white/10"
             onClick={handleAsideLgCloseClick}
           >
-            <Icon path={mdiClose} />
+            <Icon path={mdiClose} size="18" />
           </button>
         </div>
+
+        {/* Divider */}
+        <div className="mx-4 h-px bg-white/10 mb-2" />
+
+        {/* Menu */}
         <div
-          className={`flex-1 overflow-y-auto overflow-x-hidden ${
+          className={`flex-1 overflow-y-auto overflow-x-hidden px-3 ${
             darkMode ? 'aside-scrollbars-[slate]' : 'aside-scrollbars'
           }`}
         >
           <AsideMenuList menu={menu} />
         </div>
-        <ul>
-          <AsideMenuItem item={logoutItem} />
-        </ul>
+
+        {/* Divider */}
+        <div className="mx-4 h-px bg-white/10 mt-2 mb-2" />
+
+        {/* Logout */}
+        <div className="px-3 pb-4">
+          <ul>
+            <AsideMenuItem item={logoutItem} />
+          </ul>
+        </div>
       </div>
     </aside>
   )

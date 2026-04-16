@@ -24,24 +24,6 @@ export default function LayoutAuthenticated({ children }: Props) {
 
   const { isLoggedInSession } = useLoggedInUserData(true)
 
-  // const router = useRouter()
-
-  // useEffect(() => {
-  //   const handleRouteChangeStart = () => {
-  //     setIsAsideMobileExpanded(false)
-  //     setIsAsideLgActive(false)
-  //   }
-
-  //   router.events.on('routeChangeStart', handleRouteChangeStart)
-  //   router.
-
-  //   // If the component is unmounted, unsubscribe
-  //   // from the event with the `off` method:
-  //   return () => {
-  //     router.events.off('routeChangeStart', handleRouteChangeStart)
-  //   }
-  // }, [router.events])
-
   const layoutAsidePadding = 'xl:pl-60'
 
   return (
@@ -51,7 +33,7 @@ export default function LayoutAuthenticated({ children }: Props) {
           <div
             className={`${layoutAsidePadding} ${
               isAsideMobileExpanded ? 'ml-60 lg:ml-0' : ''
-            } pt-14 min-h-screen w-screen transition-position lg:w-auto bg-gray-50 dark:bg-slate-800 dark:text-slate-100`}
+            } pt-14 min-h-screen w-screen transition-position lg:w-auto bg-slate-50 dark:bg-slate-900 dark:text-slate-100`}
           >
             <NavBar
               menu={menuNavBar}

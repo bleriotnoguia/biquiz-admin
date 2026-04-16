@@ -8,7 +8,7 @@ const menuNavBar: MenuNavBarItem[] = [
       {
         icon: mdiAccount,
         label: 'My Profile',
-        href: '/profile',
+        href: '/admin/profile',
       },
       {
         icon: mdiCogOutline,

@@ -1,12 +1,9 @@
-import { mdiCog } from '@mdi/js'
 import React from 'react'
-import { ColorKey, TrendType } from '@/modules/admin/interfaces'
+import { ColorKey } from '@/modules/admin/interfaces'
 import { colorsText } from '@/colors'
-import Button from '../Button'
 import Icon from '../Icon'
 import CardBox from '.'
 import NumberDynamic from '../NumberDynamic'
-import PillTagTrend from '../PillTag/Trend'
 
 type Props = {
   number: number
@@ -16,37 +13,41 @@ type Props = {
   iconColor: ColorKey
   label: string
   trendLabel?: string
-  trendType?: TrendType
-  trendColor?: ColorKey
+}
+
+const iconBgColors: Record<ColorKey, string> = {
+  white: 'bg-gray-100',
+  light: 'bg-gray-100',
+  contrast: 'bg-gray-800',
+  success: 'bg-emerald-100 dark:bg-emerald-900/30',
+  danger: 'bg-red-100 dark:bg-red-900/30',
+  warning: 'bg-yellow-100 dark:bg-yellow-900/30',
+  info: 'bg-blue-100 dark:bg-blue-900/30',
 }
 
 const CardBoxWidget = (props: Props) => {
   return (
-    <CardBox>
-      {props.trendLabel && props.trendType && props.trendColor && (
-        <div className="flex items-center justify-between mb-3">
-          <PillTagTrend
-            label={props.trendLabel}
-            type={props.trendType}
-            color={props.trendColor}
-            small
-          />
-          <Button icon={mdiCog} color="lightDark" small />
-        </div>
-      )}
+    <CardBox className="p-5">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg leading-tight text-gray-500 dark:text-slate-400">{props.label}</h3>
-          <h1 className="text-3xl leading-tight font-semibold">
+          <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
+            {props.label}
+          </p>
+          <h1 className="text-3xl font-bold text-slate-800 dark:text-white">
             <NumberDynamic
               value={props.number}
               prefix={props.numberPrefix}
               suffix={props.numberSuffix}
             />
           </h1>
+          {props.trendLabel && (
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{props.trendLabel}</p>
+          )}
         </div>
         {props.icon && (
-          <Icon path={props.icon} size="48" w="" h="h-16" className={colorsText[props.iconColor]} />
+          <div className={`w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 ${iconBgColors[props.iconColor] ?? 'bg-gray-100'}`}>
+            <Icon path={props.icon} size="28" w="" h="" className={colorsText[props.iconColor]} />
+          </div>
         )}
       </div>
     </CardBox>

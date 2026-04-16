@@ -23,7 +23,9 @@ export default function NavBar({ menu, className = '', children }: Props) {
 
   return (
     <nav
-      className={`${className} top-0 inset-x-0 fixed bg-gray-50 h-14 z-30 transition-position w-screen lg:w-auto dark:bg-slate-800`}
+      className={`${className} top-0 inset-x-0 fixed h-14 z-30 transition-position w-screen lg:w-auto
+        bg-white/80 backdrop-blur-md border-b border-gray-200/70
+        dark:bg-slate-900/80 dark:border-slate-700/70`}
     >
       <div className={`flex lg:items-stretch ${containerMaxW}`}>
         <div className="flex flex-1 items-stretch h-14">{children}</div>
@@ -35,7 +37,10 @@ export default function NavBar({ menu, className = '', children }: Props) {
         <div
           className={`${
             isMenuNavBarActive ? 'block' : 'hidden'
-          } max-h-screen-menu overflow-y-auto lg:overflow-visible absolute w-screen top-14 left-0 bg-gray-50 shadow-lg lg:w-auto lg:flex lg:static lg:shadow-none dark:bg-slate-800`}
+          } max-h-screen-menu overflow-y-auto lg:overflow-visible absolute w-screen top-14 left-0
+            bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200
+            lg:w-auto lg:flex lg:static lg:shadow-none lg:border-0
+            dark:bg-slate-900/95 dark:border-slate-700`}
         >
           <NavBarMenuList menu={menu} />
         </div>

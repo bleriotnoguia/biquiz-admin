@@ -32,11 +32,13 @@ export default function CardBox({
     className,
     rounded,
     flex,
-    isModal ? 'dark:bg-slate-900' : 'dark:bg-slate-900/70',
+    isModal ? 'dark:bg-slate-900' : 'dark:bg-slate-800',
+    'border border-gray-100 dark:border-slate-700/60',
+    isModal ? '' : 'shadow-sm',
   ]
 
   if (isHoverable) {
-    componentClass.push('hover:shadow-lg transition-shadow duration-500')
+    componentClass.push('hover:shadow-md transition-shadow duration-300 cursor-pointer')
   }
 
   return React.createElement(

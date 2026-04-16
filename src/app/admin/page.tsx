@@ -11,7 +11,6 @@ import Button from '@/modules/admin/components/Button'
 import SectionMain from '@/modules/admin/components/Section/Main'
 import SectionTitleLineWithButton from '@/modules/admin/components/Section/TitleLineWithButton'
 import CardBoxWidget from '@/modules/admin/components/CardBox/Widget'
-import SectionBannerStarOnGitHub from '@/modules/admin/components/Section/Banner/StarOnGitHub'
 import { supabase } from '@/config/supabase'
 
 const DashboardPage = () => {
@@ -24,17 +23,14 @@ const DashboardPage = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Fetch categories count
         const { count: categoriesCount } = await supabase
           .from('question_categories')
           .select('*', { count: 'exact', head: true })
 
-        // Fetch questions count
         const { count: questionsCount } = await supabase
           .from('questions')
           .select('*', { count: 'exact', head: true })
 
-        // Fetch users count (assuming a profiles or users table exists, fallback to 0 if error)
         const { count: usersCount, error: usersError } = await supabase
           .from('profiles')
           .select('*', { count: 'exact', head: true })
@@ -68,18 +64,14 @@ const DashboardPage = () => {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 mb-6">
         <CardBoxWidget
-          trendLabel="Active"
-          trendType="up"
-          trendColor="success"
+          trendLabel="Total active"
           icon={mdiBookOpenPageVariant}
           iconColor="success"
           number={stats.categories}
           label="Categories"
         />
         <CardBoxWidget
-          trendLabel="Total"
-          trendType="up"
-          trendColor="info"
+          trendLabel="All time"
           icon={mdiHelpCircleOutline}
           iconColor="info"
           number={stats.questions}
@@ -87,17 +79,11 @@ const DashboardPage = () => {
         />
         <CardBoxWidget
           trendLabel="Registered"
-          trendType="up"
-          trendColor="warning"
           icon={mdiAccountMultiple}
           iconColor="warning"
           number={stats.users}
           label="Users"
         />
-      </div>
-
-      <div className="my-6">
-        <SectionBannerStarOnGitHub />
       </div>
     </SectionMain>
   )
