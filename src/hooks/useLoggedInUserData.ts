@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { selectIsLoggedInSession, selectLocalSessionData } from '@/modules/auth/auth.selectors'
 import { setSessionFromLocalSessionData } from '@/modules/auth/auth.actions'
@@ -10,13 +10,7 @@ export const useLoggedInUserData = (redirectToSignInPage = true) => {
   const dispatch = useAppDispatch()
   const isLoggedInSession: boolean = useAppSelector(selectIsLoggedInSession)
 
-  useEffect(() => {
-    if (!isLoggedInSession) {
-      getLoggedInUserDataOrRedirectToSignInPage()
-    }
-  })
-
-  const getLoggedInUserDataOrRedirectToSignInPage = () => {
+  const getLoggedInUserDataOrRedirectToSignInPage = useCallback(() => {
     const localSessionData: Session | null = selectLocalSessionData()
 
     if (!localSessionData) {
@@ -27,7 +21,13 @@ export const useLoggedInUserData = (redirectToSignInPage = true) => {
     }
 
     dispatch(setSessionFromLocalSessionData(localSessionData))
-  }
+  }, [dispatch, redirectToSignInPage, router])
+
+  useEffect(() => {
+    if (!isLoggedInSession) {
+      getLoggedInUserDataOrRedirectToSignInPage()
+    }
+  }, [isLoggedInSession, getLoggedInUserDataOrRedirectToSignInPage])
 
   return {
     isLoggedInSession,

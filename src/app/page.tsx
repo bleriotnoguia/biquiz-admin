@@ -1,12 +1,11 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { Home } from '../components/home/Home'
 
 export const metadata: Metadata = {
-  title: 'Biquiz App',
-  description: 'Biquiz App',
+  title: 'Biquiz Admin',
+  description: 'Manage Bible quiz categories and questions with Biquiz Admin.',
 }
 
-export default async function Page() {
-  // Forward fetched data to your Client Component
+export default function Page() {
   return <Home />
 }
