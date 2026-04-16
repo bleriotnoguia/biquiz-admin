@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { mdiChevronUp, mdiChevronDown } from '@mdi/js'
 import Divider from '../../Divider'
 import Icon from '../../Icon'
@@ -22,11 +23,30 @@ type Props = {
 export default function NavBarItem({ item }: Props) {
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const dropdownRootRef = useRef<HTMLDivElement | null>(null)
 
   const userName = useAppSelector((state) => state.auth.session.user?.name)
 
   const [isDropdownActive, setIsDropdownActive] = useState(false)
   const [isLogoutModalActive, setIsLogoutModalActive] = useState(false)
+
+  useEffect(() => {
+    if (!isDropdownActive) return
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!dropdownRootRef.current) return
+
+      if (!dropdownRootRef.current.contains(event.target as Node)) {
+        setIsDropdownActive(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isDropdownActive])
 
   const handleLogoutConfirm = async () => {
     await dispatch(signOut())
@@ -90,7 +110,7 @@ export default function NavBarItem({ item }: Props) {
         <div
           className={`${
             !isDropdownActive ? 'lg:hidden' : ''
-          } text-sm border-b border-gray-100 lg:border lg:bg-white lg:absolute lg:top-full lg:left-0 lg:min-w-full lg:z-20 lg:rounded-lg lg:shadow-lg lg:dark:bg-slate-800 dark:border-slate-700`}
+          } text-sm border-b border-gray-100 lg:border lg:bg-white lg:absolute lg:top-full lg:left-0 lg:min-w-40 lg:z-20 lg:rounded-lg lg:shadow-lg lg:dark:bg-slate-800 dark:border-slate-700`}
         >
           <NavBarMenuList menu={item.menu} />
         </div>
@@ -115,5 +135,9 @@ export default function NavBarItem({ item }: Props) {
     )
   }
 
-  return <div className={componentClass}>{NavBarItemComponentContents}</div>
+  return (
+    <div ref={dropdownRootRef} className={componentClass}>
+      {NavBarItemComponentContents}
+    </div>
+  )
 }

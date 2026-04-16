@@ -85,6 +85,11 @@ const AsideMenuItem = ({ item, isDropdownList = false }: Props) => {
             {asideMenuItemInnerContents}
           </div>
         )}
+        <LogoutConfirmModal
+          isActive={isLogoutModalActive}
+          onConfirm={() => void handleLogoutConfirm()}
+          onCancel={() => setIsLogoutModalActive(false)}
+        />
       </li>
     )
   }

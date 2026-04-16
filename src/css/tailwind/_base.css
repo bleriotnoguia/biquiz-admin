@@ -1,5 +1,4 @@
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @tailwind base;
 
@@ -144,11 +143,8 @@ html.dark {
 
     --sidebar-ring: oklch(0.556 0 0)
   }
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white text-slate-700 dark:bg-slate-900 dark:text-slate-100;
   }
   html {
     @apply font-sans;

@@ -1,4 +1,4 @@
-import { mdiAccount, mdiCogOutline, mdiLogout, mdiThemeLightDark, mdiGithub } from '@mdi/js'
+import { mdiAccount, mdiLogout, mdiThemeLightDark, mdiGithub } from '@mdi/js'
 import { MenuNavBarItem } from './interfaces'
 
 const menuNavBar: MenuNavBarItem[] = [
@@ -9,10 +9,6 @@ const menuNavBar: MenuNavBarItem[] = [
         icon: mdiAccount,
         label: 'My Profile',
         href: '/admin/profile',
-      },
-      {
-        icon: mdiCogOutline,
-        label: 'Settings',
       },
       {
         isDivider: true,

@@ -1,12 +1,12 @@
 'use client'
 
+import { useRef, useState } from 'react'
 import {
   mdiAccessPoint,
   mdiAccount,
   mdiAsterisk,
   mdiFormTextboxPassword,
   mdiMail,
-  mdiUpload,
 } from '@mdi/js'
 import { Formik, Form, Field } from 'formik'
 import Button from '@/modules/admin/components/Button'
@@ -15,18 +15,23 @@ import CardBox from '@/modules/admin/components/CardBox'
 import CardBoxComponentBody from '@/modules/admin/components/CardBox/Component/Body'
 import CardBoxComponentFooter from '@/modules/admin/components/CardBox/Component/Footer'
 import FormField from '@/modules/admin/components/Form/Field'
-import FormFilePicker from '@/modules/admin/components/Form/FilePicker'
 import SectionMain from '@/modules/admin/components/Section/Main'
 import SectionTitleLineWithButton from '@/modules/admin/components/Section/TitleLineWithButton'
 import CardBoxUser from '@/modules/admin/components/CardBox/User'
 import type { UserForm } from '@/modules/admin/interfaces'
-import { useAppSelector } from '@/config/store'
+import { useAppDispatch, useAppSelector } from '@/config/store'
 import { supabase } from '@/config/supabase'
+import { setSessionFromLocalSessionData } from '@/modules/auth/auth.actions'
+import { Session } from '@/types/user'
 import toast from 'react-hot-toast'
 
 const ProfilePage = () => {
+  const dispatch = useAppDispatch()
   const userName = useAppSelector((state) => state.auth.session.user?.name)
   const userEmail = useAppSelector((state) => state.auth.session.user?.email)
+  const userId = useAppSelector((state) => state.auth.session.user?.id)
+  const avatarFileInputRef = useRef<HTMLInputElement | null>(null)
+  const [isAvatarUploading, setIsAvatarUploading] = useState(false)
 
   const userForm: UserForm = {
     name: userName ?? '',
@@ -84,6 +89,67 @@ const ProfilePage = () => {
     }
   }
 
+  const uploadAvatarToSupabase = async (file: File | null) => {
+    if (!file || !userId || isAvatarUploading) return
+
+    const maxSizeInBytes = 500 * 1024
+    const acceptedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+
+    if (!acceptedTypes.includes(file.type)) {
+      toast.error('Unsupported format. Please use JPG, PNG, GIF, or WEBP.')
+      return
+    }
+
+    if (file.size > maxSizeInBytes) {
+      toast.error('Image is too large. Max size is 500kb.')
+      return
+    }
+
+    setIsAvatarUploading(true)
+
+    try {
+      const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg'
+      const filePath = `${userId}/avatar-${Date.now()}.${extension}`
+
+      const { error: uploadError } = await supabase.storage.from('avatars').upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: true,
+      })
+
+      if (uploadError) {
+        toast.error(uploadError.message)
+        return
+      }
+
+      const { data: publicUrlData } = supabase.storage.from('avatars').getPublicUrl(filePath)
+      const avatarUrl = publicUrlData.publicUrl
+
+      const { error: updateError } = await supabase.auth.updateUser({
+        data: { avatar_url: avatarUrl },
+      })
+
+      if (updateError) {
+        toast.error(updateError.message)
+        return
+      }
+
+      const { data: sessionData } = await supabase.auth.getSession()
+
+      if (sessionData.session) {
+        dispatch(setSessionFromLocalSessionData(sessionData.session as Session))
+      }
+
+      toast.success('Profile picture updated successfully!')
+    } finally {
+      setIsAvatarUploading(false)
+    }
+  }
+
+  const handleAvatarClick = () => {
+    if (isAvatarUploading) return
+    avatarFileInputRef.current?.click()
+  }
+
   return (
     <SectionMain>
       <SectionTitleLineWithButton icon={mdiAccount} title="Profile" main>
@@ -99,21 +165,22 @@ const ProfilePage = () => {
       </SectionTitleLineWithButton>
 
       {/* Profile header */}
-      <CardBoxUser className="mb-6" />
+      <input
+        ref={avatarFileInputRef}
+        type="file"
+        className="hidden"
+        accept="image/jpeg,image/png,image/gif,image/webp"
+        onChange={(event) => void uploadAvatarToSupabase(event.currentTarget.files?.[0] ?? null)}
+      />
+      <CardBoxUser
+        className="mb-6"
+        onAvatarClick={handleAvatarClick}
+        isAvatarUploading={isAvatarUploading}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left: avatar + account info */}
+        {/* Left: account info */}
         <div className="flex flex-col gap-6">
-          {/* Avatar upload */}
-          <CardBox>
-            <p className="text-sm font-medium text-slate-600 dark:text-slate-300 mb-3">
-              Profile picture
-            </p>
-            <FormField help="Max 500kb. JPG, PNG or GIF.">
-              <FormFilePicker label="Upload photo" color="info" icon={mdiUpload} />
-            </FormField>
-          </CardBox>
-
           {/* Account info */}
           <CardBox className="flex-1" hasComponentLayout>
             <Formik initialValues={userForm} onSubmit={handleProfileSubmit} enableReinitialize>

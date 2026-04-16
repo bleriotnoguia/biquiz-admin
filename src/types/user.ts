@@ -2,6 +2,12 @@ export type User = {
 	id: string
 	name?: string
 	email?: string
+	avatar_url?: string
+	user_metadata?: {
+		avatar_url?: string
+		full_name?: string
+		[key: string]: unknown
+	}
 }
 
 export type Session = {

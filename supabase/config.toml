@@ -128,9 +128,9 @@ max_frequency = "5s"
 
 [auth.sessions]
 # Force log out after the specified duration.
-timebox_enabled = false
+timebox = "0s"
 # Force log out if the user has been inactive for the specified duration.
-inactivity_timeout_enabled = false
+inactivity_timeout = "0s"
 
 [edge_runtime]
 enabled = true

@@ -9,6 +9,7 @@ type Props = {
   username: string
   api?: string
   className?: string
+  imageUrl?: string | null
   children?: ReactNode
 }
 
@@ -16,12 +17,14 @@ export default function UserAvatar({
   username,
   api = 'avataaars',
   className = '',
+  imageUrl = null,
   children,
 }: Props) {
-  const avatarImage = `https://api.dicebear.com/7.x/${api}/svg?seed=${username.replace(
+  const generatedAvatarImage = `https://api.dicebear.com/7.x/${api}/svg?seed=${username.replace(
     /[^a-z0-9]+/gi,
     '-'
   )}`
+  const avatarImage = imageUrl || generatedAvatarImage
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
