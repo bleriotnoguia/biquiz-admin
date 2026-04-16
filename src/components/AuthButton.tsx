@@ -12,25 +12,32 @@ export default function AuthButton() {
 
   const onSignOut = async () => {
     await dispatch(signOut())
-
-    await router.push('/login')
+    router.push('/login')
   }
 
   const { isLoggedInSession } = useLoggedInUserData(false)
 
   return isLoggedInSession ? (
-    <div className="flex items-center gap-4 float-right">
-      Hey, Bro!
-      <form action={onSignOut}>
-        <button className="py-2 px-4 text-slate-300 rounded-md no-underline">Logout</button>
-      </form>
-      <Link href="/admin" className="py-3 px-3 text-slate-300 rounded-md no-underline float-right">
-        Admin
+    <div className="flex items-center gap-3">
+      <Link
+        href="/admin"
+        className="rounded-lg bg-indigo-600 hover:bg-indigo-700 px-4 py-2 text-sm font-semibold text-white transition-colors"
+      >
+        Admin Dashboard
       </Link>
+      <button
+        onClick={onSignOut}
+        className="rounded-lg border border-gray-200 dark:border-slate-600 px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-slate-400 dark:hover:text-white transition-colors"
+      >
+        Logout
+      </button>
     </div>
   ) : (
-    <Link href="/login" className="py-3 px-3 text-slate-300 rounded-md no-underline float-right">
-      {/* Login */}
+    <Link
+      href="/login"
+      className="rounded-lg bg-indigo-600 hover:bg-indigo-700 px-4 py-2 text-sm font-semibold text-white transition-colors"
+    >
+      Sign in
     </Link>
   )
 }

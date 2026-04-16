@@ -3,67 +3,45 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Disclosure } from '@headlessui/react'
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react'
 import LogoImg from '../../../public/img/dummylogo.svg'
 import AuthButton from '../AuthButton'
 
 export default function NavbarCenterMenu() {
   return (
-    <>
-      <div className="w-full ">
-        <nav className="container relative flex flex-wrap items-center justify-between p-8 mx-auto lg:justify-between xl:px-0">
-          {/* Logo  */}
-          <Disclosure>
-            {({ open }) => (
-              <>
-                <div className="flex flex-wrap items-center justify-between w-full lg:w-auto">
-                  <Link href="#">
-                    <span className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">
-                      <Image src={LogoImg} alt="logo" />
-                    </span>
-                  </Link>
+    <div className="w-full border-b border-gray-100 dark:border-slate-700 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm sticky top-0 z-50">
+      <nav className="container relative flex flex-wrap items-center justify-between px-6 py-4 mx-auto lg:justify-between xl:px-0">
+        <Disclosure>
+          <div className="flex flex-wrap items-center justify-between w-full lg:w-auto">
+            <Link href="/" className="flex items-center space-x-2">
+              <Image src={LogoImg} alt="Biquiz logo" width={32} height={32} />
+              <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">Biquiz</span>
+            </Link>
 
-                  <Disclosure.Button
-                    aria-label="Toggle Menu"
-                    className="px-2 py-1 ml-auto text-gray-500 rounded-md lg:hidden hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:text-gray-300 dark:focus:bg-gray-700 dark:focus:text-gray-300"
-                  >
-                    <svg
-                      className="w-6 h-6 fill-current"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                    >
-                      {open && (
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z"
-                        />
-                      )}
-                      {!open && (
-                        <path
-                          fillRule="evenodd"
-                          d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
-                        />
-                      )}
-                    </svg>
-                  </Disclosure.Button>
+            <DisclosureButton
+              aria-label="Toggle Menu"
+              className="px-2 py-1 ml-auto text-gray-500 rounded-md lg:hidden hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-50 focus:outline-none dark:text-gray-300 dark:focus:bg-slate-700"
+            >
+              <svg className="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  fillRule="evenodd"
+                  d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"
+                />
+              </svg>
+            </DisclosureButton>
 
-                  <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden">
-                    <AuthButton />
-                  </Disclosure.Panel>
-                </div>
-              </>
-            )}
-          </Disclosure>
+            <DisclosurePanel className="flex flex-wrap w-full my-4 lg:hidden">
+              <AuthButton />
+            </DisclosurePanel>
+          </div>
 
-          {/* menu  */}
           <div className="hidden text-center lg:flex lg:items-center">
-            <ul className="items-center justify-end flex-1 pt-6 lg:pt-0 list-reset lg:flex">
+            <ul className="items-center justify-end flex-1 list-none lg:flex">
               <AuthButton />
             </ul>
           </div>
-        </nav>
-      </div>
-    </>
+        </Disclosure>
+      </nav>
+    </div>
   )
 }

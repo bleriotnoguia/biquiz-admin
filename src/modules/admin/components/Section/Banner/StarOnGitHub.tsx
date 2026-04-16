@@ -12,7 +12,7 @@ const SectionBannerStarOnGitHub = () => {
       </h1>
       <div>
         <Button
-          href="https://github.com/bleriotnoguia/biqui-admin"
+          href="https://github.com/bleriotnoguia/biquiz-admin"
           target="_blank"
           icon={mdiGithub}
           label="GitHub"
