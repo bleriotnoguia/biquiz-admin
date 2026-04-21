@@ -1,4 +1,5 @@
 {
   "installCommand": "npx -y pnpm@10.11.1 install --no-frozen-lockfile",
-  "buildCommand": "npx -y pnpm@10.11.1 --filter biquiz-admin build"
+  "buildCommand": "npx -y pnpm@10.11.1 --filter biquiz-admin build",
+  "outputDirectory": "apps/biquiz-admin/.next"
 }
