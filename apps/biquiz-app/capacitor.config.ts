@@ -3,7 +3,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.bleriotnoguia.biquiz',
   appName: 'Biquiz',
-  webDir: 'build',
+  webDir: 'dist',
   bundledWebRuntime: false
 };
 
