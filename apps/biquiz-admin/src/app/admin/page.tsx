@@ -19,10 +19,12 @@ const DashboardPage = () => {
     questions: 0,
     users: 0,
   })
+  const [isStatsLoading, setIsStatsLoading] = useState(true)
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        setIsStatsLoading(true)
         const { count: categoriesCount } = await supabase
           .from('question_categories')
           .select('*', { count: 'exact', head: true })
@@ -42,6 +44,8 @@ const DashboardPage = () => {
         })
       } catch (error) {
         console.error('Error fetching stats:', error)
+      } finally {
+        setIsStatsLoading(false)
       }
     }
 
@@ -69,6 +73,7 @@ const DashboardPage = () => {
           iconColor="success"
           number={stats.categories}
           label="Categories"
+          isLoading={isStatsLoading}
         />
         <CardBoxWidget
           trendLabel="All time"
@@ -76,6 +81,7 @@ const DashboardPage = () => {
           iconColor="info"
           number={stats.questions}
           label="Questions"
+          isLoading={isStatsLoading}
         />
         <CardBoxWidget
           trendLabel="Registered"
@@ -83,6 +89,7 @@ const DashboardPage = () => {
           iconColor="warning"
           number={stats.users}
           label="Users"
+          isLoading={isStatsLoading}
         />
       </div>
     </SectionMain>

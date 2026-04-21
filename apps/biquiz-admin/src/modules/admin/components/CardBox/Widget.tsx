@@ -13,6 +13,7 @@ type Props = {
   iconColor: ColorKey
   label: string
   trendLabel?: string
+  isLoading?: boolean
 }
 
 const iconBgColors: Record<ColorKey, string> = {
@@ -33,15 +34,24 @@ const CardBoxWidget = (props: Props) => {
           <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
             {props.label}
           </p>
-          <h1 className="text-3xl font-bold text-slate-800 dark:text-white">
-            <NumberDynamic
-              value={props.number}
-              prefix={props.numberPrefix}
-              suffix={props.numberSuffix}
-            />
-          </h1>
-          {props.trendLabel && (
-            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{props.trendLabel}</p>
+          {props.isLoading ? (
+            <>
+              <div className="h-9 w-20 animate-pulse rounded-md bg-slate-200 dark:bg-slate-700" />
+              <div className="mt-2 h-3 w-24 animate-pulse rounded bg-slate-200 dark:bg-slate-700" />
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl font-bold text-slate-800 dark:text-white">
+                <NumberDynamic
+                  value={props.number}
+                  prefix={props.numberPrefix}
+                  suffix={props.numberSuffix}
+                />
+              </h1>
+              {props.trendLabel && (
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{props.trendLabel}</p>
+              )}
+            </>
           )}
         </div>
         {props.icon && (
