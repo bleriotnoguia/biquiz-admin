@@ -1,0 +1,71 @@
+ion-modal#feedback-modal {
+  --height: fit-content;
+  --border-radius: 24px 24px 0 0;
+  --box-shadow: 0 -4px 40px rgba(0, 0, 0, 0.15);
+  align-items: flex-end;
+}
+
+.feedback-wrapper {
+  padding: 20px 20px 32px;
+}
+
+.feedback-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.feedback-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.feedback-icon.success {
+  background: rgba(var(--ion-color-success-rgb), 0.15);
+  color: var(--ion-color-success);
+}
+
+.feedback-icon.danger {
+  background: rgba(var(--ion-color-danger-rgb), 0.15);
+  color: var(--ion-color-danger);
+}
+
+.feedback-icon ion-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.feedback-text h2 {
+  margin: 0 0 2px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ion-color-success);
+}
+
+.feedback-text h4 {
+  margin: 0 0 2px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ion-color-danger);
+}
+
+.feedback-text p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.feedback-continue-btn {
+  width: 100%;
+  height: 52px;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  --border-radius: 14px;
+}

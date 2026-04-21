@@ -1,0 +1,86 @@
+.result-hero {
+  background: linear-gradient(160deg, #1565C0 0%, #1976D2 60%, #42A5F5 100%);
+  padding: 40px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0 0 32px 32px;
+}
+
+
+.result-score-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 3px solid rgba(255,255,255,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.result-score-number {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.result-score-total {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+}
+
+.result-stars {
+  font-size: 2rem;
+  color: #FFD700;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.3));
+  letter-spacing: 4px;
+}
+
+.result-body {
+  padding: 24px 20px;
+}
+
+.result-message-card {
+  background: var(--ion-item-background, #fff);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.result-message-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 8px;
+}
+
+.result-message-desc {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.result-message-desc strong {
+  color: var(--ion-color-primary);
+}
+
+.result-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.result-btn {
+  --border-radius: 14px;
+  height: 52px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
