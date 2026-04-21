@@ -1,0 +1,4 @@
+{
+  "buildCommand": "npx -y pnpm@10.11.1 build",
+  "outputDirectory": "dist"
+}
