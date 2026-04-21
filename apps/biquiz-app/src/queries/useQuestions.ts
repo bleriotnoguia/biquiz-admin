@@ -21,7 +21,7 @@ interface RawOption {
 
 interface RawQuestion {
   id: number
-  is_active: boolean
+  question_category_id: number
   name: RawTranslation[]
   source_text: RawSourceText[]
   options: RawOption[]
@@ -31,7 +31,7 @@ const fetchQuestions = async (category_id: string, lang: string): Promise<Questi
   const { data, error } = await supabase
     .from('questions')
     .select(
-      `id, is_active,
+      `id, question_category_id,
       source_text:question_translations(source_text, locale),
       name:question_translations(name, locale),
       options:question_options(id, name:question_option_translations(name, locale), is_correct)`
@@ -49,7 +49,13 @@ const fetchQuestions = async (category_id: string, lang: string): Promise<Questi
         is_correct: opt.is_correct,
         name: opt.name.find((i) => i.locale === lang)?.name ?? '',
       }))
-      return { ...ques, name, source_text, options }
+      return {
+        id: ques.id,
+        question_category_id: ques.question_category_id,
+        name,
+        source_text,
+        options,
+      }
     }) ?? []
   )
 }
